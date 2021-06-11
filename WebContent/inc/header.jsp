@@ -13,8 +13,8 @@
     <title>전국공공시설</title>
     <style>
        .header{
-             height : 100px;
-            background-color : #586fab;
+            height : 100px;
+            background-color : white;
             margin : 0 auto;
             
          }
@@ -28,7 +28,7 @@
            <h1>
            <div class="p-3 mb-2 ">
              <p class="font-weight-bold" >
-               <a class="text-white nav-link active" aria-current="page" href="/test/index.jsp" >전국공공체육시설</a>
+               <a class="text-white nav-link active" aria-current="page" href="/test/index.jsp" >Sports facility center</a>
              </p>
              </div>
              </h1>
