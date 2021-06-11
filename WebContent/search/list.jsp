@@ -217,15 +217,31 @@
     
     
 	<!-- 리스트 표시될 div start-->
-	<div class="col py-3 px-lg-5 border bg-light">
+	<div class="col py-3 px-lg-5 border bg-light" >
 	
-	<div class="nav justify-content-end">
+	<div class="nav justify-content-end" >
 	<div class="list-group" style="width:100%;height:350px;">
+		
+	<a href="#" class="list-group-item list-group-item-action "  >
+       	<div class="d-flex w-100 justify-content-between">
+         	<h5 class="mb-1" id="listFacility_name">개방시설명</h5>
+         	<small>시설유형</small>
+       	</div>
+       	<p class="mb-1">도로명주소</p>
+       	<p class="mb-1">지번주소</p>
+       	<small>전화번호</small>
+     </a>
+		
+		
+		
+		
+		
+		<!-- 테이블 안넣을 것 같으니 잠시 빼두기 
 		<table class="table table-hover">
 		  <tbody>
 		  	
 		    <tr>
-		      <th scope="row"><a href="#">개방시설명</a></th>
+		      <th scope="row"><a href="#">시설명</a></th>
 		      <td>도로명주소</td>
 		      <td>지번주소</td>
 		      <td>전화번호</td>
@@ -234,7 +250,7 @@
 		    
 		  </tbody>
 		</table>
-	  
+	  -->
 	  
 	  
 	</div>
@@ -317,12 +333,12 @@
             url: '../project/final_PublicFacility (2).json',
             type: 'GET',
             dataType: 'json',
+            data : {data: JSON.stringify("publicfacility")},
             error: function () {
                 alert('error!')
             },
             success: function (json) {
                 const ArrayofEverything = json.publicfacility;
-                //var DataOfAllThing = []; 나중에 지우기
                 for (const data of ArrayofEverything) {
                     name = data.Location_nm;
                     lat = data.Lat;
@@ -331,13 +347,15 @@
                     addr1 = data.Loc_Address;
                     addr2 = data.Loc_New_Address;
                     tel = data.POC_num;
-                    
-                    /*
                     address1_code = data.address1_code;
                     if(checkCenter === address1_code){
-                    	{name, addr1, addr2, tel};
+                    	console.log(data);
+                    	
+                    	$("#listFacility_name").append();
+                    	
+                    	console.log('정초희'); //확인 차. 지울 것
                     }
-                    */
+                    
                    
                     switch (type) {
                         case '골프장': golfPositions.push(new kakao.maps.LatLng(lat, lng));
@@ -365,7 +383,7 @@
                     }
                     
 
-                    console.log(name)
+                    
 
                 }
 
