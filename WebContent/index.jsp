@@ -170,7 +170,8 @@
 		// 다각형에 클릭 이벤트를 등록합니다
 		var downCount = 0;
 		kakao.maps.event.addListener(polygon, 'click', function() {
-		location.href = "../../test/search/list.jsp?localcode="+code;
+		location.href = "../../test/search/list.jsp?localcode="+code+"&localname="+name;
+		
 		});
 	}
 </script>

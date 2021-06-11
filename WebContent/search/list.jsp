@@ -1,196 +1,301 @@
 <!doctype html>
-<%@ page pageEncoding="utf-8"%>
-<%@ include file="../inc/header.jsp"%>
+<%@ page pageEncoding="utf-8" %>
+<%@ include file="../inc/header.jsp" %>
 
-<!-- breadcrumb start -->
-<nav aria-label="breadcrumb">
-	<ol class="breadcrumb">
-		<li class="breadcrumb-item"><a href="/test/index.jsp">Home</a></li>
-		<li class="breadcrumb-item">map</li>
-	</ol>
-</nav>
-<!-- breadcrumb end -->
+	<!-- breadcrumb start -->
+  	<nav aria-label="breadcrumb">
+  		<ol class="breadcrumb">
+    		<li class="breadcrumb-item"><a href="/test/index.jsp">Home</a></li>
+    		<li class="breadcrumb-item">map</li>
+  		</ol>
+	</nav>
+  	<!-- breadcrumb end -->
+  	
 
-<!-- container start -->
 
 <head>
-<script src="../js/jquery-3.6.0.js"></script>
-<script type="text/javascript"
-	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=226c8fcd0301bbaab162a7f83afe082b"></script>
-<meta charset="utf-8">
-<title>마커 필터링</title>
-<style>
-#mapwrap {
-	position: relative;
-	overflow: hidden;
-}
+    <script src="../js/jquery-3.6.0.js"></script>
+    <script type="text/javascript"
+        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=226c8fcd0301bbaab162a7f83afe082b"></script>
+    <meta charset="utf-8">
+    <title>마커 필터링</title>
+    <style>
+        #mapwrap {
+            position: relative;
+            overflow: hidden;
+        }
 
-.category, .category * {
-	margin: 0;
-	padding: 0;
-	color: #000;
-}
+        .category,
+        .category * {
+            margin: 0;
+            padding: 0;
+            color: #000;
+        }
 
-.category {
-	position: absolute;
-	overflow: hidden;
-	top: 10px;
-	left: 10px;
-	width: 310px;
-	height: 100px;
-	z-index: 10;
-	border: 1px solid black;
-	font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
-	font-size: 12px;
-	text-align: center;
-	background-color: #fff;
-}
+        .category {
+            position: absolute;
+            overflow: hidden;
+            top: 10px;
+            left: 10px;
+            width: 310px;
+            height: 100px;
+            z-index: 10;
+            border: 1px solid black;
+            font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+            font-size: 12px;
+            text-align: center;
+            background-color: #fff;
+        }
 
-.category .menu_selected {
-	background: #FF5F4A;
-	color: #fff;
-	border-left: 1px solid #915B2F;
-	border-right: 1px solid #915B2F;
-	margin: 0 -1px;
-}
+        .category .menu_selected {
+            background: #FF5F4A;
+            color: #fff;
+            border-left: 1px solid #915B2F;
+            border-right: 1px solid #915B2F;
+            margin: 0 -1px;
+        }
 
-.category li {
-	list-style: none;
-	float: left;
-	width: 50px;
-	height: 45px;
-	padding-top: 5px;
-	cursor: pointer;
-}
+        .category li {
+            list-style: none;
+            float: left;
+            width: 50px;
+            height: 45px;
+            padding-top: 5px;
+            cursor: pointer;
+        }
 
-.category .ico_comm {
-	display: block;
-	margin: 0 auto 2px;
-}
+        .category .ico_comm {
+            display: block;
+            margin: 0 auto 2px;
+        }
 
-.category .ico_all {
-	width: 22px;
-	height: 26px;
-	background: url('../project/mark/css_sprites_resize.png') -10px -10px;
-}
+        .category .ico_all {
+            width: 22px;
+            height: 26px;
+            background: url('../project/mark/css_sprites_resize.png') -10px -10px;
+        }
 
-.category .ico_badmin {
-	width: 22px;
-	height: 26px;
-	background: url('../project/mark/css_sprites_resize.png') -52px -10px;
-}
+        .category .ico_badmin {
+            width: 22px;
+            height: 26px;
+            background: url('../project/mark/css_sprites_resize.png') -52px -10px;
+        }
 
-.category .ico_baseball {
-	width: 22px;
-	height: 26px;
-	background: url('../project/mark/css_sprites_resize.png') -94px -10px;
-}
+        .category .ico_baseball {
+            width: 22px;
+            height: 26px;
+            background: url('../project/mark/css_sprites_resize.png') -94px -10px;
+        }
 
-.category .ico_basket {
-	width: 22px;
-	height: 26px;
-	background: url('../project/mark/css_sprites_resize.png') -10px -56px;
-}
+        .category .ico_basket {
+            width: 22px;
+            height: 26px;
+            background: url('../project/mark/css_sprites_resize.png') -10px -56px;
+        }
 
-.category .ico_camping {
-	width: 22px;
-	height: 26px;
-	background: url('../project/mark/css_sprites_resize.png') -52px -56px;
-}
+        .category .ico_camping {
+            width: 22px;
+            height: 26px;
+            background: url('../project/mark/css_sprites_resize.png') -52px -56px;
+        }
 
-.category .ico_football {
-	width: 22px;
-	height: 26px;
-	background: url('../project/mark/css_sprites_resize.png') -94px -56px;
-}
+        .category .ico_football {
+            width: 22px;
+            height: 26px;
+            background: url('../project/mark/css_sprites_resize.png') -94px -56px;
+        }
 
-.category .ico_footsal {
-	width: 22px;
-	height: 26px;
-	background: url('../project/mark/css_sprites_resize.png') -136px -10px;
-}
+        .category .ico_footsal {
+            width: 22px;
+            height: 26px;
+            background: url('../project/mark/css_sprites_resize.png') -136px -10px;
+        }
 
-.category .ico_golf {
-	width: 22px;
-	height: 26px;
-	background: url('../project/mark/css_sprites_resize.png') -136px -56px;
-}
+        .category .ico_golf {
+            width: 22px;
+            height: 26px;
+            background: url('../project/mark/css_sprites_resize.png') -136px -56px;
+        }
 
-.category .ico_gym {
-	width: 22px;
-	height: 26px;
-	background: url('../project/mark/css_sprites_resize.png') -10px -102px;
-}
+        .category .ico_gym {
+            width: 22px;
+            height: 26px;
+            background: url('../project/mark/css_sprites_resize.png') -10px -102px;
+        }
 
-.category .ico_multiUse {
-	width: 22px;
-	height: 26px;
-	background: url('../project/mark/css_sprites_resize.png') -52px -102px;
-}
+        .category .ico_multiUse {
+            width: 22px;
+            height: 26px;
+            background: url('../project/mark/css_sprites_resize.png') -52px -102px;
+        }
 
-.category .ico_soccer {
-	width: 22px;
-	height: 26px;
-	background: url('../project/mark/css_sprites_resize.png') -94px -102px;
-}
+        .category .ico_soccer {
+            width: 22px;
+            height: 26px;
+            background: url('../project/mark/css_sprites_resize.png') -94px -102px;
+        }
 
-.category .ico_tennis {
-	width: 22px;
-	height: 26px;
-	background: url('../project/mark/css_sprites_resize.png') -136px -102px;
-}
-</style>
+        .category .ico_tennis {
+            width: 22px;
+            height: 26px;
+            background: url('../project/mark/css_sprites_resize.png') -136px -102px;
+
+        }
+    </style>
 </head>
 
 <body>
-	<div id="mapwrap">
-		<!-- 지도가 표시될 div -->
-		<div id="map" style="width: 50%; height: 350px;"></div>
-		<!-- 지도 위에 표시될 마커 카테고리 -->
-		<div class="category" id="sel">
-			<ul>
-				<li id="allMenu" onclick="changeMarker('all')"><span
-					class="ico_comm ico_all"></span> 전체
-				<li id="golfMenu" onclick="changeMarker('golf')"><span
-					class="ico_comm ico_golf"></span> 골프
-				<li id="basketMenu" onclick="changeMarker('basket')"><span
-					class="ico_comm ico_basket"></span> 농구
-				<li id="multiUseMenu" onclick="changeMarker('multiUse')"><span
-					class="ico_comm ico_multiUse"></span> 경기장
-				<li id="badminMenu" onclick="changeMarker('badmin')"><span
-					class="ico_comm ico_badmin"></span> 배드맨턴
-				<li id="baseballMenu" onclick="changeMarker('baseball')"><span
-					class="ico_comm ico_baseball"></span> 야구
-				<li id="footballMenu" onclick="changeMarker('football')"><span
-					class="ico_comm ico_football"></span> 족구
-				<li id="gymMenu" onclick="changeMarker('gym')"><span
-					class="ico_comm ico_gym"></span> 체육관
-				<li id="soccerMenu" onclick="changeMarker('soccer')"><span
-					class="ico_comm ico_soccer"></span> 축구
-				<li id="campingMenu" onclick="changeMarker('camping')"><span
-					class="ico_comm ico_camping"></span> 캠핑
-				<li id="tennisMenu" onclick="changeMarker('tennis')"><span
-					class="ico_comm ico_tennis"></span> 테니스
-				<li id="footsalMenu" onclick="changeMarker('footsal')"><span
-					class="ico_comm ico_footsal"></span> 풋살</li>
-			</ul>
-		</div>
+	<!-- container start -->
+	<!-- 지도와 리스트 정보가 표시될 col start -->
+	<div class="container">
+	  <div class="row">
+	    <div class="col">
+	     date.address1 <!-- 나중에 if문 사용해서 해당 시/도 텍스트 나오게 만들기 -->
+	      
+	    </div>
+	  <div class="col">
+	      시/도 별 data count 함수 만들기
+	    </div>
+	  </div>
+	</div>
+	<!-- 지도와 리스트 정보가 표시될 col end -->
+	
+	
+	
+	<div class="container px-lg-5">
+  	<div class="row mx-lg-n5">
+        <!-- 지도가 표시될 div start-->
+  	<div class="col py-3 px-lg-5 border bg-light">
+    <div id="mapwrap">
+        <div id="map" style="width:100%;height:350px;"></div>
+        <!-- 지도 위에 표시될 마커 카테고리 -->
+        <div class="category" id="sel">
+            <ul>
+                <li id="allMenu" onclick="changeMarker('all')">
+                    <span class="ico_comm ico_all"></span>
+                    전체
+                <li id="golfMenu" onclick="changeMarker('golf')">
+                    <span class="ico_comm ico_golf"></span>
+                    골프
+                <li id="basketMenu" onclick="changeMarker('basket')">
+                    <span class="ico_comm ico_basket"></span>
+                    농구
+                <li id="multiUseMenu" onclick="changeMarker('multiUse')">
+                    <span class="ico_comm ico_multiUse"></span>
+                    경기장
+                <li id="badminMenu" onclick="changeMarker('badmin')">
+                    <span class="ico_comm ico_badmin"></span>
+                    배드맨턴
+                <li id="baseballMenu" onclick="changeMarker('baseball')">
+                    <span class="ico_comm ico_baseball"></span>
+                    야구
+                <li id="footballMenu" onclick="changeMarker('football')">
+                    <span class="ico_comm ico_football"></span>
+                    족구
+                <li id="gymMenu" onclick="changeMarker('gym')">
+                    <span class="ico_comm ico_gym"></span>
+                    체육관
+                <li id="soccerMenu" onclick="changeMarker('soccer')">
+                    <span class="ico_comm ico_soccer"></span>
+                    축구
+                <li id="campingMenu" onclick="changeMarker('camping')">
+                    <span class="ico_comm ico_camping"></span>
+                    캠핑
+                <li id="tennisMenu" onclick="changeMarker('tennis')">
+                    <span class="ico_comm ico_tennis"></span>
+                    테니스
+                <li id="footsalMenu" onclick="changeMarker('footsal')">
+                    <span class="ico_comm ico_footsal"></span>
+                    풋살
+
+                </li>
+            </ul>
+        </div>
+    </div>
+    </div>
+    <!-- 지도가 표시될 div end-->
+    
+    
+	<!-- 리스트 표시될 div start-->
+	<div class="col py-3 px-lg-5 border bg-light">
+	
+	<div class="nav justify-content-end">
+	<div class="list-group" style="width:100%;height:350px;">
+		<table class="table table-hover">
+		  <tbody>
+		  	
+		    <tr>
+		      <th scope="row"><a href="#">개방시설명</a></th>
+		      <td>도로명주소</td>
+		      <td>지번주소</td>
+		      <td>전화번호</td>
+		      
+		    </a></tr>
+		    
+		  </tbody>
+		</table>
+	  
+	  
+	  
+	</div>
+	</div>
+	</div>
+	<!-- 리스트 표시될 div end-->
+	</div>
 	</div>
 
-	<script>
-    	var localCode = location.href;
+
 	
-	var check = localCode.split("=")[1];
-        var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
-        var checkCenter = '';
-        switch (check) {
-                case '32': checkCenter = new kakao.maps.LatLng(37.498004414546934, 127.02770621963765);
-                break;
-                case '22': checkCenter = new kakao.maps.LatLng(37.498004414546934, 127.02770621963765);
-              	break;
+    <script>
+    
+		var Check = location.href;
+		var checkCenter = Check.split("=")[1].split("&")[0];
+		var localName =  Check.split("=")[2];
+		
+		console.log(checkCenter)
+		console.log(localName)
+        var mapContainer = document.getElementById('map')// 지도를 표시할 div  
+        switch (checkCenter) {
+	        case '11' : checkmap = new kakao.maps.LatLng(37.55179806924573, 126.98986980793178);
+	       	break;
+	        case '21' : checkmap = new kakao.maps.LatLng(35.16212400103579, 129.047757759559);
+	       	break;
+	        case '22' : checkmap = new kakao.maps.LatLng(35.825188230874495, 128.5670409325588);
+	       	break;
+	        case '23' : checkmap = new kakao.maps.LatLng(37.50260839865224, 126.66610090247079);
+	       	break;
+	        case '24' : checkmap = new kakao.maps.LatLng(35.15422674499753, 126.83487119648517);
+	       	break;
+	        case '25' : checkmap = new kakao.maps.LatLng(37.339900401195976, 127.39703737811574);
+	        break;
+	        case '26' : checkmap = new kakao.maps.LatLng(35.545209912591886, 129.25467338727785);
+	        break;
+	        case '29' : checkmap = new kakao.maps.LatLng( 36.56236386365618, 127.2567513019287);
+	        break;
+	        case '31' : checkmap = new kakao.maps.LatLng(37.586113055675206, 127.09301162933102);
+	        break;
+	        case '32' : checkmap = new kakao.maps.LatLng(37.80046190328578, 128.27463560567378);
+	        break;
+	        case '33' : checkmap = new kakao.maps.LatLng( 36.68236062118246, 127.84040489531188);
+	        break;
+	        case '34' : checkmap = new kakao.maps.LatLng(36.55810050557958, 126.87332800215337);
+	        break;
+	        case '35' : checkmap = new kakao.maps.LatLng(35.728309862490654, 127.13984591660557);
+	        break;
+	        case '36' : checkmap = new kakao.maps.LatLng(34.95290265867075, 126.85079147460186);
+	        break;
+	        case '37' : checkmap = new kakao.maps.LatLng(36.294796646659044, 128.85771919876842);
+	        break;
+	        case '38' : checkmap = new kakao.maps.LatLng(35.32829075242766, 128.28652178806226);
+	        break;
+	        case '39' : checkmap = new kakao.maps.LatLng( 33.3753564031499, 126.5426591164497);
+	        break;
+	        default : checkmap = new kakao.maps.LatLng(37.498004414546934, 127.02770621963765);
+        };
             mapOption = {
-                center: checkCenter, // 지도의 중심좌표 
-                level: 8 // 지도의 확대 레벨 
+                center: checkmap, // 지도의 중심좌표 
+                level: 10 // 지도의 확대 레벨 
+                
                 
             };
 
@@ -217,13 +322,23 @@
             },
             success: function (json) {
                 const ArrayofEverything = json.publicfacility;
-
+                //var DataOfAllThing = []; 나중에 지우기
                 for (const data of ArrayofEverything) {
                     name = data.Location_nm;
                     lat = data.Lat;
                     lng = data.Lng;
                     type = data.Facility_Type;
-
+                    addr1 = data.Loc_Address;
+                    addr2 = data.Loc_New_Address;
+                    tel = data.POC_num;
+                    
+                    /*
+                    address1_code = data.address1_code;
+                    if(checkCenter === address1_code){
+                    	{name, addr1, addr2, tel};
+                    }
+                    */
+                   
                     switch (type) {
                         case '골프장': golfPositions.push(new kakao.maps.LatLng(lat, lng));
                             break;
@@ -248,6 +363,10 @@
                         case '풋살경기장': footsalPositions.push(new kakao.maps.LatLng(lat, lng));
                             break;
                     }
+                    
+
+                    console.log(name)
+
                 }
 
                 creategolfMarkers();
@@ -808,7 +927,8 @@
     </script>
 </body>
 
+	
+	
 
-
-
-<%@ include file="../inc/footer.jsp"%>
+<%@ include file="../inc/footer.jsp" %>
+     
