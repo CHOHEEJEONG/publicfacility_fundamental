@@ -1,16 +1,814 @@
 <!doctype html>
-<%@ page pageEncoding="utf-8" %>
-<%@ include file="../inc/header.jsp" %>
+<%@ page pageEncoding="utf-8"%>
+<%@ include file="../inc/header.jsp"%>
 
-	<!-- breadcrumb start -->
-  	<nav aria-label="breadcrumb">
-  		<ol class="breadcrumb">
-    		<li class="breadcrumb-item"><a href="/test/index.jsp">Home</a></li>
-    		<li class="breadcrumb-item">map</li>
-  		</ol>
-	</nav>
-  	<!-- breadcrumb end -->
+<!-- breadcrumb start -->
+<nav aria-label="breadcrumb">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="/test/index.jsp">Home</a></li>
+		<li class="breadcrumb-item">map</li>
+	</ol>
+</nav>
+<!-- breadcrumb end -->
+
+<!-- container start -->
+
+<head>
+<script src="../js/jquery-3.6.0.js"></script>
+<script type="text/javascript"
+	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=226c8fcd0301bbaab162a7f83afe082b"></script>
+<meta charset="utf-8">
+<title>마커 필터링</title>
+<style>
+#mapwrap {
+	position: relative;
+	overflow: hidden;
+}
+
+.category, .category * {
+	margin: 0;
+	padding: 0;
+	color: #000;
+}
+
+.category {
+	position: absolute;
+	overflow: hidden;
+	top: 10px;
+	left: 10px;
+	width: 310px;
+	height: 100px;
+	z-index: 10;
+	border: 1px solid black;
+	font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+	font-size: 12px;
+	text-align: center;
+	background-color: #fff;
+}
+
+.category .menu_selected {
+	background: #FF5F4A;
+	color: #fff;
+	border-left: 1px solid #915B2F;
+	border-right: 1px solid #915B2F;
+	margin: 0 -1px;
+}
+
+.category li {
+	list-style: none;
+	float: left;
+	width: 50px;
+	height: 45px;
+	padding-top: 5px;
+	cursor: pointer;
+}
+
+.category .ico_comm {
+	display: block;
+	margin: 0 auto 2px;
+}
+
+.category .ico_all {
+	width: 22px;
+	height: 26px;
+	background: url('../project/mark/css_sprites_resize.png') -10px -10px;
+}
+
+.category .ico_badmin {
+	width: 22px;
+	height: 26px;
+	background: url('../project/mark/css_sprites_resize.png') -52px -10px;
+}
+
+.category .ico_baseball {
+	width: 22px;
+	height: 26px;
+	background: url('../project/mark/css_sprites_resize.png') -94px -10px;
+}
+
+.category .ico_basket {
+	width: 22px;
+	height: 26px;
+	background: url('../project/mark/css_sprites_resize.png') -10px -56px;
+}
+
+.category .ico_camping {
+	width: 22px;
+	height: 26px;
+	background: url('../project/mark/css_sprites_resize.png') -52px -56px;
+}
+
+.category .ico_football {
+	width: 22px;
+	height: 26px;
+	background: url('../project/mark/css_sprites_resize.png') -94px -56px;
+}
+
+.category .ico_footsal {
+	width: 22px;
+	height: 26px;
+	background: url('../project/mark/css_sprites_resize.png') -136px -10px;
+}
+
+.category .ico_golf {
+	width: 22px;
+	height: 26px;
+	background: url('../project/mark/css_sprites_resize.png') -136px -56px;
+}
+
+.category .ico_gym {
+	width: 22px;
+	height: 26px;
+	background: url('../project/mark/css_sprites_resize.png') -10px -102px;
+}
+
+.category .ico_multiUse {
+	width: 22px;
+	height: 26px;
+	background: url('../project/mark/css_sprites_resize.png') -52px -102px;
+}
+
+.category .ico_soccer {
+	width: 22px;
+	height: 26px;
+	background: url('../project/mark/css_sprites_resize.png') -94px -102px;
+}
+
+.category .ico_tennis {
+	width: 22px;
+	height: 26px;
+	background: url('../project/mark/css_sprites_resize.png') -136px -102px;
+}
+</style>
+</head>
+
+<body>
+	<div id="mapwrap">
+		<!-- 지도가 표시될 div -->
+		<div id="map" style="width: 50%; height: 350px;"></div>
+		<!-- 지도 위에 표시될 마커 카테고리 -->
+		<div class="category" id="sel">
+			<ul>
+				<li id="allMenu" onclick="changeMarker('all')"><span
+					class="ico_comm ico_all"></span> 전체
+				<li id="golfMenu" onclick="changeMarker('golf')"><span
+					class="ico_comm ico_golf"></span> 골프
+				<li id="basketMenu" onclick="changeMarker('basket')"><span
+					class="ico_comm ico_basket"></span> 농구
+				<li id="multiUseMenu" onclick="changeMarker('multiUse')"><span
+					class="ico_comm ico_multiUse"></span> 경기장
+				<li id="badminMenu" onclick="changeMarker('badmin')"><span
+					class="ico_comm ico_badmin"></span> 배드맨턴
+				<li id="baseballMenu" onclick="changeMarker('baseball')"><span
+					class="ico_comm ico_baseball"></span> 야구
+				<li id="footballMenu" onclick="changeMarker('football')"><span
+					class="ico_comm ico_football"></span> 족구
+				<li id="gymMenu" onclick="changeMarker('gym')"><span
+					class="ico_comm ico_gym"></span> 체육관
+				<li id="soccerMenu" onclick="changeMarker('soccer')"><span
+					class="ico_comm ico_soccer"></span> 축구
+				<li id="campingMenu" onclick="changeMarker('camping')"><span
+					class="ico_comm ico_camping"></span> 캠핑
+				<li id="tennisMenu" onclick="changeMarker('tennis')"><span
+					class="ico_comm ico_tennis"></span> 테니스
+				<li id="footsalMenu" onclick="changeMarker('footsal')"><span
+					class="ico_comm ico_footsal"></span> 풋살</li>
+			</ul>
+		</div>
+	</div>
+
+	<script>
+    	var localCode = location.href;
+	
+	var check = localCode.split("=")[1];
+        var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
+        var checkCenter = '';
+        switch (check) {
+                case '32': checkCenter = new kakao.maps.LatLng(37.498004414546934, 127.02770621963765);
+                break;
+                case '22': checkCenter = new kakao.maps.LatLng(37.498004414546934, 127.02770621963765);
+              	break;
+            mapOption = {
+                center: checkCenter, // 지도의 중심좌표 
+                level: 8 // 지도의 확대 레벨 
+                
+            };
+
+        var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+        var golfPositions = [];
+        var basketPositions = [];
+        var multiUsePositions = [];
+        var badminPositions = [];
+        var baseballPositions = [];
+        var footballPositions = [];
+        var gymPositions = [];
+        var soccerPositions = [];
+        var campingPositions = [];
+        var tennisPositions = [];
+        var footsalPositions = [];
+
+        $.ajax({
+            url: '../project/final_PublicFacility (2).json',
+            type: 'GET',
+            dataType: 'json',
+            error: function () {
+                alert('error!')
+            },
+            success: function (json) {
+                const ArrayofEverything = json.publicfacility;
+
+                for (const data of ArrayofEverything) {
+                    name = data.Location_nm;
+                    lat = data.Lat;
+                    lng = data.Lng;
+                    type = data.Facility_Type;
+
+                    switch (type) {
+                        case '골프장': golfPositions.push(new kakao.maps.LatLng(lat, lng));
+                            break;
+                        case '농구장': basketPositions.push(new kakao.maps.LatLng(lat, lng));
+                            break;
+                        case '다목적경기장': multiUsePositions.push(new kakao.maps.LatLng(lat, lng));
+                            break;
+                        case '배드맨턴장': badminPositions.push(new kakao.maps.LatLng(lat, lng));
+                            break;
+                        case '야구장': baseballPositions.push(new kakao.maps.LatLng(lat, lng));
+                            break;
+                        case '족구장': footballPositions.push(new kakao.maps.LatLng(lat, lng));
+                            break;
+                        case '체육관': gymPositions.push(new kakao.maps.LatLng(lat, lng));
+                            break;
+                        case '축구장': soccerPositions.push(new kakao.maps.LatLng(lat, lng));
+                            break;
+                        case '캠핑장': campingPositions.push(new kakao.maps.LatLng(lat, lng));
+                            break;
+                        case '테니스장': tennisPositions.push(new kakao.maps.LatLng(lat, lng));
+                            break;
+                        case '풋살경기장': footsalPositions.push(new kakao.maps.LatLng(lat, lng));
+                            break;
+                    }
+                }
+
+                creategolfMarkers();
+                createbasketMarkers();
+                createmultiUseMarkers();
+                createbadminMarkers();
+                createbaseballMarkers();
+                createfootballMarkers();
+                creategymMarkers();
+                createsoccerMarkers();
+                createcampingMarkers();
+                createtennisMarkers();
+                createfootsalMarkers();
 
 
-<%@ include file="../inc/footer.jsp" %>
-     
+                changeMarker('all'); // 지도에 커피숍 마커가 보이도록 설정합니다    
+
+            }
+        });//end of ajax
+
+        var golfMarkers = [];
+        var basketMarkers = [];
+        var multiUseMarkers = [];
+        var badminMarkers = [];
+        var baseballMarkers = [];
+        var footballMarkers = [];
+        var gymMarkers = [];
+        var soccerMarkers = [];
+        var campingMarkers = [];
+        var tennisMarkers = [];
+        var footsalMarkers = [];
+
+        // 좌표와 마커이미지를 받아 마커를 생성하여 리턴하는 함수입니다
+        function createMarker(position, image) {
+            var marker = new kakao.maps.Marker({
+                position: position,
+                image: image
+            });
+            return marker;
+        }
+        // 커피숍 마커를 생성하고 커피숍 마커 배열에 추가하는 함수입니다
+        function creategolfMarkers() {
+            for (var i = 0; i < golfPositions.length; i++) {
+                var imageSrc = '../project/mark/골프장.png',
+                    imageSize = new kakao.maps.Size(30, 30),
+                    imageOption = { offset: new kakao.maps.Point(27, 69) };
+
+                // 마커이미지와 마커를 생성합니다
+                var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
+                    marker = createMarker(golfPositions[i], markerImage);
+                // 생성된 마커를 커피숍 마커 배열에 추가합니다
+                golfMarkers.push(marker);
+            }
+        }
+        /*
+                // 커피숍 마커들의 지도 표시 여부를 설정하는 함수입니다
+                function setCoffeeMarkers(map) {
+                    for (var i = 0; i < coffeeMarkers.length; i++) {
+                        coffeeMarkers[i].setMap(map);
+                    }
+                }
+        */
+
+        function createbasketMarkers() {
+            for (var i = 0; i < basketPositions.length; i++) {
+                var imageSrc = '../project/mark/농구장.png',
+                    imageSize = new kakao.maps.Size(30, 30),
+                    imageOption = { offset: new kakao.maps.Point(27, 69) };
+                var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
+                    marker = createMarker(basketPositions[i], markerImage);
+                basketMarkers.push(marker);
+            }
+        }
+
+        function createmultiUseMarkers() {
+            for (var i = 0; i < multiUsePositions.length; i++) {
+                var imageSrc = '../project/mark/다목적경기장.png',
+                    imageSize = new kakao.maps.Size(30, 30),
+                    imageOption = { offset: new kakao.maps.Point(27, 69) };
+                var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
+                    marker = createMarker(multiUsePositions[i], markerImage);
+                multiUseMarkers.push(marker);
+            }
+        }
+
+        function createbadminMarkers() {
+            for (var i = 0; i < badminPositions.length; i++) {
+                var imageSrc = '../project/mark/배드맨턴장.png',
+                    imageSize = new kakao.maps.Size(30, 30),
+                    imageOption = { offset: new kakao.maps.Point(27, 69) };
+                var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
+                    marker = createMarker(badminPositions[i], markerImage);
+                badminMarkers.push(marker);
+            }
+        }
+
+        function createbaseballMarkers() {
+            for (var i = 0; i < baseballPositions.length; i++) {
+                var imageSrc = '../project/mark/야구장.png',
+                    imageSize = new kakao.maps.Size(30, 30),
+                    imageOption = { offset: new kakao.maps.Point(27, 69) };
+                var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
+                    marker = createMarker(baseballPositions[i], markerImage);
+                baseballMarkers.push(marker);
+            }
+        }
+
+        function createfootballMarkers() {
+            for (var i = 0; i < footballPositions.length; i++) {
+                var imageSrc = '../project/mark/족구장.png',
+                    imageSize = new kakao.maps.Size(30, 30),
+                    imageOption = { offset: new kakao.maps.Point(27, 69) };
+                var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
+                    marker = createMarker(footballPositions[i], markerImage);
+                footballMarkers.push(marker);
+            }
+        }
+
+        function creategymMarkers() {
+            for (var i = 0; i < gymPositions.length; i++) {
+                var imageSrc = '../project/mark/체육관.png',
+                    imageSize = new kakao.maps.Size(30, 30),
+                    imageOption = { offset: new kakao.maps.Point(27, 69) };
+                var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
+                    marker = createMarker(gymPositions[i], markerImage);
+                gymMarkers.push(marker);
+            }
+        }
+
+        function createsoccerMarkers() {
+            for (var i = 0; i < soccerPositions.length; i++) {
+                var imageSrc = '../project/mark/축구장.png',
+                    imageSize = new kakao.maps.Size(30, 30),
+                    imageOption = { offset: new kakao.maps.Point(27, 69) };
+                var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
+                    marker = createMarker(soccerPositions[i], markerImage);
+                soccerMarkers.push(marker);
+            }
+        }
+
+        function createcampingMarkers() {
+            for (var i = 0; i < campingPositions.length; i++) {
+                var imageSrc = '../project/mark/캠핑장.png',
+                    imageSize = new kakao.maps.Size(30, 30),
+                    imageOption = { offset: new kakao.maps.Point(27, 69) };
+                var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
+                    marker = createMarker(campingPositions[i], markerImage);
+                campingMarkers.push(marker);
+            }
+        }
+
+
+        function createtennisMarkers() {
+            for (var i = 0; i < tennisPositions.length; i++) {
+                var imageSrc = '../project/mark/테니스장.png',
+                    imageSize = new kakao.maps.Size(30, 30),
+                    imageOption = { offset: new kakao.maps.Point(27, 69) };
+                var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
+                    marker = createMarker(tennisPositions[i], markerImage);
+                tennisMarkers.push(marker);
+            }
+        }
+
+        function createfootsalMarkers() {
+            for (var i = 0; i < footsalPositions.length; i++) {
+                var imageSrc = '../project/mark/풋살경기장.png',
+                    imageSize = new kakao.maps.Size(30, 30),
+                    imageOption = { offset: new kakao.maps.Point(27, 69) };
+                var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
+                    marker = createMarker(footsalPositions[i], markerImage);
+                footsalMarkers.push(marker);
+            }
+        }
+
+        function setgolfMarker(map) {
+            for (var i = 0; i < golfMarkers.length; i++) {
+                golfMarkers[i].setMap(map);
+            }
+        }
+        function setbasketMarker(map) {
+            for (var i = 0; i < basketMarkers.length; i++) {
+                basketMarkers[i].setMap(map);
+            }
+        }
+        function setmultiUseMarker(map) {
+            for (var i = 0; i < multiUseMarkers.length; i++) {
+                multiUseMarkers[i].setMap(map);
+            }
+        }
+        function setbadminMarker(map) {
+            for (var i = 0; i < badminMarkers.length; i++) {
+                badminMarkers[i].setMap(map);
+            }
+        }
+        function setbaseballMarker(map) {
+            for (var i = 0; i < baseballMarkers.length; i++) {
+                baseballMarkers[i].setMap(map);
+            }
+        }
+        function setfootballMarker(map) {
+            for (var i = 0; i < footballMarkers.length; i++) {
+                footballMarkers[i].setMap(map);
+            }
+        }
+        function setgymMarker(map) {
+            for (var i = 0; i < gymMarkers.length; i++) {
+                gymMarkers[i].setMap(map);
+            }
+        }
+        function setsoccerMarker(map) {
+            for (var i = 0; i < soccerMarkers.length; i++) {
+                soccerMarkers[i].setMap(map);
+            }
+        }
+        function setcampingMarker(map) {
+            for (var i = 0; i < campingMarkers.length; i++) {
+                campingMarkers[i].setMap(map);
+            }
+        }
+        function settennisMarker(map) {
+            for (var i = 0; i < tennisMarkers.length; i++) {
+                tennisMarkers[i].setMap(map);
+            }
+        }
+        function setfootsalMarker(map) {
+            for (var i = 0; i < footsalMarkers.length; i++) {
+                footsalMarkers[i].setMap(map);
+            }
+        }
+
+        function setCoffeeMarker(map) {
+            for (var i = 0; i < coffeeMarkers.length; i++) {
+                coffeeMarkers[i].setMap(map);
+            }
+        }
+        // 카테고리를 클릭했을 때 type에 따라 카테고리의 스타일과 지도에 표시되는 마커를 변경합니다
+
+
+        function changeMarker(type) {
+            var allMenu = document.getElementById('allMenu');
+            var golfMenu = document.getElementById('golfMenu');
+            var basketMenu = document.getElementById('basketMenu');
+            var multiUseMenu = document.getElementById('multiUseMenu');
+            var badminMenu = document.getElementById('badminMenu');
+            var baseballMenu = document.getElementById('baseballMenu');
+            var footballMenu = document.getElementById('footballMenu');
+            var gymMenu = document.getElementById('gymMenu');
+            var soccerMenu = document.getElementById('soccerMenu');
+            var campingMenu = document.getElementById('campingMenu');
+            var tennisMenu = document.getElementById('tennisMenu');
+            var footsalMenu = document.getElementById('footsalMenu');
+
+            // 커피숍 카테고리가 클릭됐을 때
+            if (type === 'golf') {
+                allMenu.className = '';
+
+                // 커피숍 카테고리를 선택된 스타일로 변경하고
+                golfMenu.className = 'menu_selected';
+                // 편의점과 주차장 카테고리는 선택되지 않은 스타일로 바꿉니다
+                basketMenu.className = '';
+                multiUseMenu.className = '';
+                badminMenu.className = '';
+                baseballMenu.className = '';
+                footballMenu.className = '';
+                gymMenu.className = '';
+                soccerMenu.className = '';
+                campingMenu.className = '';
+                tennisMenu.className = '';
+                footsalMenu.className = '';
+
+                // 커피숍 마커들만 지도에 표시하도록 설정합니다
+                setgolfMarker(map);
+                setbasketMarker(null);
+                setmultiUseMarker(null);
+                setbadminMarker(null);
+                setbaseballMarker(null);
+                setfootballMarker(null);
+                setgymMarker(null);
+                setsoccerMarker(null);
+                setcampingMarker(null);
+                settennisMarker(null);
+                setfootsalMarker(null);
+
+            } else if (type === 'all') {
+                allMenu.className = 'menu_selected';
+                golfMenu.className = '';
+                basketMenu.className = '';
+                multiUseMenu.className = '';
+                badminMenu.className = '';
+                baseballMenu.className = '';
+                footballMenu.className = '';
+                gymMenu.className = '';
+                soccerMenu.className = '';
+                campingMenu.className = '';
+                tennisMenu.className = '';
+                footsalMenu.className = '';
+                setgolfMarker(map);
+                setbasketMarker(map);
+                setmultiUseMarker(map);
+                setbadminMarker(map);
+                setbaseballMarker(map);
+                setfootballMarker(map);
+                setgymMarker(map);
+                setsoccerMarker(map);
+                setcampingMarker(map);
+                settennisMarker(map);
+                setfootsalMarker(map);
+
+            } else if (type === 'basket') {
+                allMenu.className = '';
+                golfMenu.className = '';
+                basketMenu.className = 'menu_selected';
+                multiUseMenu.className = '';
+                badminMenu.className = '';
+                baseballMenu.className = '';
+                footballMenu.className = '';
+                gymMenu.className = '';
+                soccerMenu.className = '';
+                campingMenu.className = '';
+                tennisMenu.className = '';
+                footsalMenu.className = '';
+                setgolfMarker(null);
+                setbasketMarker(map);
+                setmultiUseMarker(null);
+                setbadminMarker(null);
+                setbaseballMarker(null);
+                setfootballMarker(null);
+                setgymMarker(null);
+                setsoccerMarker(null);
+                setcampingMarker(null);
+                settennisMarker(null);
+                setfootsalMarker(null);
+
+            } else if (type === 'multiUse') {
+                allMenu.className = '';
+                golfMenu.className = '';
+                basketMenu.className = '';
+                multiUseMenu.className = 'menu_selected';
+                badminMenu.className = '';
+                baseballMenu.className = '';
+                footballMenu.className = '';
+                gymMenu.className = '';
+                soccerMenu.className = '';
+                campingMenu.className = '';
+                tennisMenu.className = '';
+                footsalMenu.className = '';
+                setgolfMarker(null);
+                setbasketMarker(null);
+                setmultiUseMarker(map);
+                setbadminMarker(null);
+                setbaseballMarker(null);
+                setfootballMarker(null);
+                setgymMarker(null);
+                setsoccerMarker(null);
+                setcampingMarker(null);
+                settennisMarker(null);
+                setfootsalMarker(null);
+            } else if (type === 'badmin') {
+                allMenu.className = '';
+                golfMenu.className = '';
+                basketMenu.className = '';
+                multiUseMenu.className = '';
+                badminMenu.className = 'menu_selected';
+                baseballMenu.className = '';
+                footballMenu.className = '';
+                gymMenu.className = '';
+                soccerMenu.className = '';
+                campingMenu.className = '';
+                tennisMenu.className = '';
+                footsalMenu.className = '';
+                setgolfMarker(null);
+                setbasketMarker(null);
+                setmultiUseMarker(null);
+                setbadminMarker(map);
+                setbaseballMarker(null);
+                setfootballMarker(null);
+                setgymMarker(null);
+                setsoccerMarker(null);
+                setcampingMarker(null);
+                settennisMarker(null);
+                setfootsalMarker(null);
+
+            } else if (type === 'baseball') {
+                allMenu.className = '';
+                golfMenu.className = '';
+                basketMenu.className = '';
+                multiUseMenu.className = '';
+                badminMenu.className = '';
+                baseballMenu.className = 'menu_selected';
+                footballMenu.className = '';
+                gymMenu.className = '';
+                soccerMenu.className = '';
+                campingMenu.className = '';
+                tennisMenu.className = '';
+                footsalMenu.className = '';
+                setgolfMarker(null);
+                setbasketMarker(null);
+                setmultiUseMarker(null);
+                setbadminMarker(null);
+                setbaseballMarker(map);
+                setfootballMarker(null);
+                setgymMarker(null);
+                setsoccerMarker(null);
+                setcampingMarker(null);
+                settennisMarker(null);
+                setfootsalMarker(null);
+            } else if (type === 'football') {
+                allMenu.className = '';
+                golfMenu.className = '';
+                basketMenu.className = '';
+                multiUseMenu.className = '';
+                badminMenu.className = '';
+                baseballMenu.className = '';
+                footballMenu.className = 'menu_selected';
+                gymMenu.className = '';
+                soccerMenu.className = '';
+                campingMenu.className = '';
+                tennisMenu.className = '';
+                footsalMenu.className = '';
+                setgolfMarker(null);
+                setbasketMarker(null);
+                setmultiUseMarker(null);
+                setbadminMarker(null);
+                setbaseballMarker(null);
+                setfootballMarker(map);
+                setgymMarker(null);
+                setsoccerMarker(null);
+                setcampingMarker(null);
+                settennisMarker(null);
+                setfootsalMarker(null);
+            } else if (type === 'gym') {
+                allMenu.className = '';
+                golfMenu.className = '';
+                basketMenu.className = '';
+                multiUseMenu.className = '';
+                badminMenu.className = '';
+                baseballMenu.className = '';
+                footballMenu.className = '';
+                gymMenu.className = 'menu_selected';
+                soccerMenu.className = '';
+                campingMenu.className = '';
+                tennisMenu.className = '';
+                footsalMenu.className = '';
+                setgolfMarker(null);
+                setbasketMarker(null);
+                setmultiUseMarker(null);
+                setbadminMarker(null);
+                setbaseballMarker(null);
+                setfootballMarker(null);
+                setgymMarker(map);
+                setsoccerMarker(null);
+                setcampingMarker(null);
+                settennisMarker(null);
+                setfootsalMarker(null);
+            } else if (type === 'soccer') {
+                allMenu.className = '';
+                golfMenu.className = '';
+                basketMenu.className = '';
+                multiUseMenu.className = '';
+                badminMenu.className = '';
+                baseballMenu.className = '';
+                footballMenu.className = '';
+                gymMenu.className = '';
+                soccerMenu.className = 'menu_selected';
+                campingMenu.className = '';
+                tennisMenu.className = '';
+                footsalMenu.className = '';
+                setgolfMarker(null);
+                setbasketMarker(null);
+                setmultiUseMarker(null);
+                setbadminMarker(null);
+                setbaseballMarker(null);
+                setfootballMarker(null);
+                setgymMarker(null);
+                setsoccerMarker(map);
+                setcampingMarker(null);
+                settennisMarker(null);
+                setfootsalMarker(null);
+            } else if (type === 'camping') {
+                allMenu.className = '';
+                golfMenu.className = '';
+                basketMenu.className = '';
+                multiUseMenu.className = '';
+                badminMenu.className = '';
+                baseballMenu.className = '';
+                footballMenu.className = '';
+                gymMenu.className = '';
+                soccerMenu.className = '';
+                campingMenu.className = 'menu_selected';
+                tennisMenu.className = '';
+                footsalMenu.className = '';
+                setgolfMarker(null);
+                setbasketMarker(null);
+                setmultiUseMarker(null);
+                setbadminMarker(null);
+                setbaseballMarker(null);
+                setfootballMarker(null);
+                setgymMarker(null);
+                setsoccerMarker(null);
+                setcampingMarker(map);
+                settennisMarker(null);
+                setfootsalMarker(null);
+            } else if (type === 'tennis') {
+                allMenu.className = '';
+                golfMenu.className = '';
+                basketMenu.className = '';
+                multiUseMenu.className = '';
+                badminMenu.className = '';
+                baseballMenu.className = '';
+                footballMenu.className = '';
+                gymMenu.className = '';
+                soccerMenu.className = '';
+                campingMenu.className = '';
+                tennisMenu.className = 'menu_selected';
+                footsalMenu.className = '';
+                setgolfMarker(null);
+                setbasketMarker(null);
+                setmultiUseMarker(null);
+                setbadminMarker(null);
+                setbaseballMarker(null);
+                setfootballMarker(null);
+                setgymMarker(null);
+                setsoccerMarker(null);
+                setcampingMarker(null);
+                settennisMarker(map);
+                setfootsalMarker(null);
+            } else if (type === 'footsal') {
+                allMenu.className = '';
+                golfMenu.className = '';
+                basketMenu.className = '';
+                multiUseMenu.className = '';
+                badminMenu.className = '';
+                baseballMenu.className = '';
+                footballMenu.className = '';
+                gymMenu.className = '';
+                soccerMenu.className = '';
+                campingMenu.className = '';
+                tennisMenu.className = '';
+                footsalMenu.className = 'menu_selected';
+                setgolfMarker(null);
+                setbasketMarker(null);
+                setmultiUseMarker(null);
+                setbadminMarker(null);
+                setbaseballMarker(null);
+                setfootballMarker(null);
+                setgymMarker(null);
+                setsoccerMarker(null);
+                setcampingMarker(null);
+                settennisMarker(null);
+                setfootsalMarker(map);
+            }
+        }
+
+
+
+
+
+    </script>
+</body>
+
+
+
+
+<%@ include file="../inc/footer.jsp"%>
