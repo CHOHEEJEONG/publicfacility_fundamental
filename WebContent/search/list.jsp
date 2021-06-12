@@ -149,12 +149,10 @@
 	<!-- 지도와 리스트 정보가 표시될 col start -->
 	<div class="container">
 	  <div class="row">
-	    <div class="col">
-	     date.address1 <!-- 나중에 if문 사용해서 해당 시/도 텍스트 나오게 만들기 -->
-	      
+	    <div class="col" id="addr">
 	    </div>
 	  <div class="col">
-	      시/도 별 data count 함수 만들기
+	      검색 결과 : 총 몇 건
 	    </div>
 	  </div>
 	</div>
@@ -329,6 +327,7 @@
                 addr1Array = [];
                 addr2Array = [];
                 telArray = [];
+                addrArray = [];
                 	
                 for (const data of ArrayofEverything) {
                     fname = data.Facility_nm;
@@ -340,7 +339,8 @@
                     addr2 = data.Loc_New_Address;
                     tel = data.POC_num;
                     address1_code = data.address1_code;
-					
+					addr = data.address1;
+                    
                     index = data.No;
                     
 	                
@@ -351,6 +351,7 @@
                     	addr1Array.push(addr1);
                     	addr2Array.push(addr2);
                     	telArray.push(tel);
+                    	addrArray.push(addr);
                     	
                     	console.log(nameArray[0]); //나중에 뺴기
                     	
@@ -392,6 +393,8 @@
                     
 
                 } //for문 마지막
+                
+                $("#addr").append(addrArray[0] + " 공공체육시설");
                 
                 let html = "<ul>";
             	html +=  nameArray[0] ;
