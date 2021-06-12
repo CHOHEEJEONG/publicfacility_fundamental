@@ -342,6 +342,9 @@
             success: function (json) {
                 const ArrayofEverything = json.publicfacility;
                 nameArray = [];
+                
+                
+                	
                 for (const data of ArrayofEverything) {
                     name = data.Location_nm;
                     lat = data.Lat;
@@ -352,23 +355,12 @@
                     tel = data.POC_num;
                     address1_code = data.address1_code;
 					
-                    
-               		if(checkCenter === address1_code){
+                    if(checkCenter === address1_code){
                     	nameArray.push(name);
                     	console.log(nameArray[0]); //나중에 뺴기
-						
                     	
-		                let html = "<ul>";
-                    	html += "<li>" +  nameArray[0] + "</li>";
-                    	html += "</ul>";
-                    
-               		 	$("#listFacility_name").append(html);
-               		}
-                	/*
-                	for (var i = 0; i < badminMarkers.length; i++) {
-               			 badminMarkers[i].setMap(map);
-            		}
-                	*/
+                    } //if
+                	
                     
                     
                    
@@ -400,7 +392,13 @@
 
                     
 
-                }
+                } //for문 마지막
+                
+                let html = "<ul>";
+            	html += "<li>" +  nameArray[0] + "</li>";
+            	html += "</ul>";
+            
+       		 	$("#listFacility_name").append(html);
 
                 creategolfMarkers();
                 createbasketMarkers();
@@ -418,6 +416,7 @@
                 changeMarker('all'); // 지도에 커피숍 마커가 보이도록 설정합니다    
 
             }
+
         });//end of ajax
 
         var golfMarkers = [];
