@@ -224,7 +224,9 @@
 		
 	<a href="#" class="list-group-item list-group-item-action "  >
        	<div class="d-flex w-100 justify-content-between">
-         	<h5 class="mb-1" id="listFacility_name">개방시설명</h5>
+       		
+         	<h5 class="mb-1" id="listFacility_name"></h5>
+         	
          	<small>시설유형</small>
        	</div>
        	<p class="mb-1">도로명주소</p>
@@ -339,6 +341,7 @@
             },
             success: function (json) {
                 const ArrayofEverything = json.publicfacility;
+                nameArray = [];
                 for (const data of ArrayofEverything) {
                     name = data.Location_nm;
                     lat = data.Lat;
@@ -348,13 +351,25 @@
                     addr2 = data.Loc_New_Address;
                     tel = data.POC_num;
                     address1_code = data.address1_code;
-                    if(checkCenter === address1_code){
-                    	console.log(data);
+					
+                    
+               		if(checkCenter === address1_code){
+                    	nameArray.push(name);
+                    	console.log(nameArray[0]); //나중에 뺴기
+						
                     	
-                    	$("#listFacility_name").append();
-                    	
-                    	console.log('정초희'); //확인 차. 지울 것
-                    }
+		                let html = "<ul>";
+                    	html += "<li>" +  nameArray[0] + "</li>";
+                    	html += "</ul>";
+                    
+               		 	$("#listFacility_name").append(html);
+               		}
+                	/*
+                	for (var i = 0; i < badminMarkers.length; i++) {
+               			 badminMarkers[i].setMap(map);
+            		}
+                	*/
+                    
                     
                    
                     switch (type) {
