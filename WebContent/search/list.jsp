@@ -222,38 +222,21 @@
 	<div class="nav justify-content-end" >
 	<div class="list-group" style="width:100%;height:350px;">
 		
+		
+	<!-- 리스트 -->	
 	<a href="#" class="list-group-item list-group-item-action "  >
        	<div class="d-flex w-100 justify-content-between">
-       		
          	<h5 class="mb-1" id="listFacility_name"></h5>
-         	
          	<small id="listFacility_type"></small>
        	</div>
        	<p class="mb-1" id="listFacility_addr1"></p>
        	<p class="mb-1" id="listFacility_addr2"></p>
        	<small id="listFacility_tel"></small>
      </a>
+	<!-- 리스트 -->	
 		
 		
-		
-		
-		
-		<!-- 테이블 안넣을 것 같으니 잠시 빼두기 
-		<table class="table table-hover">
-		  <tbody>
-		  	
-		    <tr>
-		      <th scope="row"><a href="#">시설명</a></th>
-		      <td>도로명주소</td>
-		      <td>지번주소</td>
-		      <td>전화번호</td>
-		      
-		    </a></tr>
-		    
-		  </tbody>
-		</table>
-	  -->
-	  
+	
 	  
 	</div>
 	</div>
@@ -411,28 +394,28 @@
                 } //for문 마지막
                 
                 let html = "<ul>";
-            	html += "<li>" +  nameArray[0] + "</li>";
+            	html +=  nameArray[0] ;
             	html += "</ul>";
        		 	$("#listFacility_name").append(html);
                 
        		 	
        		 	let htm2 = "<ul>";
-         		htm2 += "<li>" +  typeArray[0] + "</li>";
+         		htm2 += typeArray[0] ;
          		htm2 += "</ul>";
     		 	$("#listFacility_type").append(htm2);
     		 	
        		 	let htm3 = "<ul>";
-         		htm3 += "<li>" +  addr1Array[0] + "</li>";
+         		htm3 += addr1Array[0];
          		htm3 += "</ul>";
     		 	$("#listFacility_addr1").append(htm3);
     		 	
        		 	let htm4 = "<ul>";
-         		htm4 += "<li>" +  addr2Array[0] + "</li>";
+         		htm4 += addr2Array[0];
          		htm4 += "</ul>";
     		 	$("#listFacility_addr2").append(htm4);
     		 	
        		 	let htm5 = "<ul>";
-         		htm5 += "<li>" +  telArray[0] + "</li>";
+         		htm5 +=telArray[0];
          		htm5 += "</ul>";
     		 	$("#listFacility_tel").append(htm5);
     		 	
