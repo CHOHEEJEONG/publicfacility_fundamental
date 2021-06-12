@@ -227,11 +227,11 @@
        		
          	<h5 class="mb-1" id="listFacility_name"></h5>
          	
-         	<small>시설유형</small>
+         	<small id="listFacility_type"></small>
        	</div>
-       	<p class="mb-1">도로명주소</p>
-       	<p class="mb-1">지번주소</p>
-       	<small>전화번호</small>
+       	<p class="mb-1" id="listFacility_addr1"></p>
+       	<p class="mb-1" id="listFacility_addr2"></p>
+       	<small id="listFacility_tel"></small>
      </a>
 		
 		
@@ -270,8 +270,8 @@
 		var checkCenter = Check.split("=")[1].split("&")[0];
 		var localName =  Check.split("=")[2];
 		
-		console.log(checkCenter)
-		console.log(localName)
+		console.log(checkCenter) //나중에 지우기
+		console.log(localName)  //나중에 지우기 
         var mapContainer = document.getElementById('map')// 지도를 표시할 div  
         switch (checkCenter) {
 	        case '11' : checkmap = new kakao.maps.LatLng(37.55179806924573, 126.98986980793178);
@@ -342,10 +342,13 @@
             success: function (json) {
                 const ArrayofEverything = json.publicfacility;
                 nameArray = [];
-                
-                
+                typeArray = [];
+                addr1Array = [];
+                addr2Array = [];
+                telArray = [];
                 	
                 for (const data of ArrayofEverything) {
+                    fname = data.Facility_nm;
                     name = data.Location_nm;
                     lat = data.Lat;
                     lng = data.Lng;
@@ -355,14 +358,27 @@
                     tel = data.POC_num;
                     address1_code = data.address1_code;
 					
+                    index = data.No;
+                    
+	                
+					
                     if(checkCenter === address1_code){
-                    	nameArray.push(name);
+                    	nameArray.push(fname);
+                    	typeArray.push(type);
+                    	addr1Array.push(addr1);
+                    	addr2Array.push(addr2);
+                    	telArray.push(tel);
+                    	
                     	console.log(nameArray[0]); //나중에 뺴기
                     	
+                    	
+                    	
                     } //if
-                	
                     
                     
+                    
+                    
+                   
                    
                     switch (type) {
                         case '골프장': golfPositions.push(new kakao.maps.LatLng(lat, lng));
@@ -397,9 +413,34 @@
                 let html = "<ul>";
             	html += "<li>" +  nameArray[0] + "</li>";
             	html += "</ul>";
-            
        		 	$("#listFacility_name").append(html);
-
+                
+       		 	
+       		 	let htm2 = "<ul>";
+         		htm2 += "<li>" +  typeArray[0] + "</li>";
+         		htm2 += "</ul>";
+    		 	$("#listFacility_type").append(htm2);
+    		 	
+       		 	let htm3 = "<ul>";
+         		htm3 += "<li>" +  addr1Array[0] + "</li>";
+         		htm3 += "</ul>";
+    		 	$("#listFacility_addr1").append(htm3);
+    		 	
+       		 	let htm4 = "<ul>";
+         		htm4 += "<li>" +  addr2Array[0] + "</li>";
+         		htm4 += "</ul>";
+    		 	$("#listFacility_addr2").append(htm4);
+    		 	
+       		 	let htm5 = "<ul>";
+         		htm5 += "<li>" +  telArray[0] + "</li>";
+         		htm5 += "</ul>";
+    		 	$("#listFacility_tel").append(htm5);
+    		 	
+    		 	
+    		 	
+    		 	
+    		 	
+       		 	
                 creategolfMarkers();
                 createbasketMarkers();
                 createmultiUseMarkers();
