@@ -2,24 +2,13 @@
 <%@ page pageEncoding="utf-8"%>
 <%@ include file="../inc/header.jsp"%>
 
-  	<!-- breadcrumb start -->
-  	<nav class="navbar navbar-expand navbar-light bg-light">
-      <a class="navbar-brand" href="/test/index.jsp">PUBLIC SPORTS FACILITIES</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02" aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <div class="collapse navbar-collapse" id="navbarsExample02">
-        <ul class="navbar-nav mr-auto">
-       
-          <li class="nav-item">
-            <a class="nav-link" href="#">Map</a>
-          </li>
-        </ul>
-       
-      </div>
-    </nav>
-  	<!-- breadcrumb end -->
+<!-- breadcrumb start -->
+<div class="jumbotron jumbotron-fluid" style="padding : 30px">
+	<div class="container">
+  		<h1 class="display-4 font-italic " id="bold">Where is Public Sports Facilities?</h1>
+  	</div>
+</div>
+<!-- breadcrumb end -->
 
 
 <head>
@@ -157,7 +146,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col" id="addr"></div>
-			<div class="col" id="count">       </div>
+			<div class="col" id="count"></div>
 		</div>
 	</div>
 	<!-- 지도와 리스트 정보가 표시될 col end -->
@@ -208,11 +197,11 @@
 			<div class="col py-3 px-lg-5 border bg-light">
 
 				<div class="nav justify-content-end">
-					<div class="list-group" style= "overflow:auto; width: 100%; height: 350px">
+					<div class="list-group"
+						style="overflow: auto; width: 100%; height: 350px">
 
 
-						<div id='temps'> 
-						</div>
+						<div id='temps'></div>
 
 
 
@@ -230,10 +219,7 @@
     
 		var Check = location.href;
 		var checkCenter = Check.split("=")[1].split("&")[0];
-		var localName =  Check.split("=")[2];
-		
-		console.log(checkCenter) //나중에 지우기
-		console.log(localName)  //나중에 지우기 
+		var clickedIndex =  Check.split("=")[2];
         var mapContainer = document.getElementById('map')// 지도를 표시할 div  
         switch (checkCenter) {
 	        case '11' : checkmap = new kakao.maps.LatLng(37.55179806924573, 126.98986980793178);
@@ -293,15 +279,7 @@
         var tennisPositions = [];
         var footsalPositions = [];
 
-        $.ajax({
-            url: '../project/final_PublicFacility (2).json',
-            type: 'GET',
-            dataType: 'json',
-            data : {data: JSON.stringify("publicfacility")},
-            error: function () {
-                alert('error!')
-            },
-            success: function (json) {
+        $.getJSON('../project/final_PublicFacility (2).json', function (json) {
                 const ArrayofEverything = json.publicfacility;
                 nameArray = [];
                 typeArray = [];
@@ -352,7 +330,7 @@
                         break;
                     case '풋살경기장': footsalPositions.push(new kakao.maps.LatLng(lat, lng));
                         break;
-                }
+                } //switch
 	                
 					
                     if(checkCenter === address1_code){
@@ -364,37 +342,68 @@
                     	addrArray.push(addr);
                     	indexArray.push(index);
                     	
-                    	console.log(nameArray[0]); //나중에 뺴기
-                    	
-                    	
-                    	
                     } //if
                     
-                    
-
                 } //for문 마지막
+                
+                
+                
+                
+                
                 
                 $("#addr").append(addrArray[0] + " 공공체육시설");
                 $("#count").append('검색 결과 : 총 '+ indexArray.length +'건');
                 
                 for (var a in indexArray){
                 	
-                	
-                	
-                	temps = '<a href="#" class="list-group-item list-group-item-action">'
+                	temps = '<div id="insertAjax'+indexArray[a]+'">'
 					temps += '<div class="d-flex w-100 justify-content-between">'
-					temps += 		'<h5 class="mb-1" id="listFacility_name"> <ul>'  + nameArray[a] +  '</ul></h5>'
+					temps += 		'<h5 class="mb-1" id="listFacility_name"> <ul>' + nameArray[a] + '</ul></h5>'
 					temps += 		'<small id="listFacility_type"><ul> '+ typeArray[a] +  ' </ul></small>'
 					temps += 		'</div>'
 					temps += 		'<p class="mb-1" id="listFacility_addr1"><ul>'  + addr1Array[a] + '</ul></p>'
 					temps += 		'<p class="mb-1" id="listFacility_addr2"><ul>'  + addr2Array[a] +   '</ul></p>' 
 					temps += 		'<small id="listFacility_tel"><ul>'  + telArray[a] +   '</ul></small>'
-					temps += 			'</a>'
-					
-                	
+					temps += 		'</div>'
+					               	
 					$("#temps").append(temps);
-                }
-    		 	
+                } // for
+					$("#temps").click(function (){
+		                $.ajax({
+		                    url: '../project/final_PublicFacility (2).json',
+		                    type: 'GET',
+		                    dataType: 'json',
+		                    data : {data: JSON.stringify("publicfacility")},
+		                    error: function () {
+		                        alert('error!')
+		                    },
+		                    success: function () {
+		                    	console.log(indexArray[a]);
+		                    	
+		                    	
+		                    	/*
+                   				temps = '<div class="card" >'
+		            			temps += '<div class="card text-dark bg-light mb-3" >'
+                   				temps += '<div class="card-body">'
+                   				temps += '<h5 class="card-title">' + 개방시설명 +'</h5>'													//타이틀
+                   				temps += '<p class="card-text">' + 개방시설명, 개방장소명, 개방시설유형구분 + '</p></div>' 						//데이터
+                   				temps += '<ul class="list-group list-group-flush">'	
+                   				temps += '<p class="card-text"> <i class="fa fa-clock-o" aria-hidden="true"></i>' + 운영시간 + '</p>'	//타이틀
+                   				temps += '<li class="list-group-item">' + 휴관일,운영시간(평일/주말) + '</li>'								//데이터
+                   				temps += '<p class="card-text"><i class="fa fa-user-o" aria-hidden="true"></i>' + 수용가능인원 + '</p>'	//타이틀
+                   				temps += '<li class="list-group-item">' + 수용가능인원수,면적,부대시설정보,신청방법,시설사진정보 + '</li>'			//데이터
+                   				temps += '<p class="card-text"><i class="fa fa-phone" aria-hidden="true"></i>' + 전화번호 + '</p>'		//타이틀
+                   				temps += '<li class="list-group-item">' + 도로명주소/지번주소/전화번호 + '</li></ul></div></div></body>'		//데이터
+		                    	*/    
+		                    	
+		            			console.log(temps); //나중에 지우기
+		    					$("#temps").replaceWith("hi");
+		            	}
+		                });
+		       		})
+                
+                
+
     		 	
     		 	
        		 	
@@ -413,10 +422,14 @@
 
                 changeMarker('all'); // 지도에 커피숍 마커가 보이도록 설정합니다    
 
-            }
+                     // success
+                    
 
-        });//end of ajax
-
+     //end of ajax
+                }) // end of getJSON
+                
+                
+                
         var golfMarkers = [];
         var basketMarkers = [];
         var multiUseMarkers = [];

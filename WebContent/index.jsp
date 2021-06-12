@@ -1,24 +1,15 @@
 <!doctype html>
 <%@ page pageEncoding="utf-8" %>
-<%@ include file="./inc/header.jsp" %>
-  	<!-- breadcrumb start -->
-  	<nav class="navbar navbar-expand navbar-light bg-light">
-      <a class="navbar-brand" href="/test/index.jsp">PUBLIC SPORTS FACILITIES</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02" aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <div class="collapse navbar-collapse" id="navbarsExample02">
-        <ul class="navbar-nav mr-auto">
-       
-          <li class="nav-item">
-            <a class="nav-link" href="#">Map</a>
-          </li>
-        </ul>
-       
-      </div>
-    </nav>
-  	<!-- breadcrumb end -->
+<%@ include file="../inc/header.jsp" %>
+ 
+<!-- breadcrumb start -->
+<div class="jumbotron jumbotron-fluid" style="padding : 30px">
+	<div class="container">
+  		<h1 class="display-4 font-italic " id="bold">Where is Public Sports Facilities?</h1>
+    	<p class="lead">Find the best public sports facilities near by you.</p>
+  	</div>
+</div>
+<!-- breadcrumb end -->
 
 
 
@@ -29,7 +20,7 @@
 	<!-- col start -->
 	<div class="row">
 		<div class="col-md-12">
-			<h5>Find the best public sports facilities near by you</h5>
+			<h5>Find the best public sports facilities near by you 텍스트 고치기</h5>
 		</div>
 	</div>
 	<!-- col end -->
@@ -184,10 +175,10 @@
 		// 다각형에 클릭 이벤트를 등록합니다
 		var downCount = 0;
 		kakao.maps.event.addListener(polygon, 'click', function() {
-		location.href = "../../test/search/list.jsp?localcode="+code+"&localname="+name;
+		location.href = "../../test/search/list.jsp?localcode="+code+"&clickedIndex=false";
 		
 		});
 	}
 </script>
 
-<%@ include file="./inc/footer.jsp"%>
+<%@ include file="../inc/footer.jsp"%>
