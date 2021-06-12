@@ -1,251 +1,226 @@
 <!doctype html>
-<%@ page pageEncoding="utf-8" %>
-<%@ include file="../inc/header.jsp" %>
+<%@ page pageEncoding="utf-8"%>
+<%@ include file="../inc/header.jsp"%>
 
-	<!-- breadcrumb start -->
-  	<nav aria-label="breadcrumb">
-  		<ol class="breadcrumb">
-    		<li class="breadcrumb-item"><a href="/test/index.jsp">Home</a></li>
-    		<li class="breadcrumb-item">map</li>
-  		</ol>
-	</nav>
-  	<!-- breadcrumb end -->
-  	
+<!-- breadcrumb start -->
+<nav aria-label="breadcrumb">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="/test/index.jsp">Home</a></li>
+		<li class="breadcrumb-item">map</li>
+	</ol>
+</nav>
+<!-- breadcrumb end -->
+
 
 
 <head>
-    <script src="../js/jquery-3.6.0.js"></script>
-    <script type="text/javascript"
-        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=226c8fcd0301bbaab162a7f83afe082b"></script>
-    <meta charset="utf-8">
-    <title>마커 필터링</title>
-    <style>
-        #mapwrap {
-            position: relative;
-            overflow: hidden;
-        }
+<script src="../js/jquery-3.6.0.js"></script>
+<script type="text/javascript"
+	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=226c8fcd0301bbaab162a7f83afe082b"></script>
+<meta charset="utf-8">
+<title>마커 필터링</title>
+<style>
+#mapwrap {
+	position: relative;
+	overflow: hidden;
+}
 
-        .category,
-        .category * {
-            margin: 0;
-            padding: 0;
-            color: #000;
-        }
+.category, .category * {
+	margin: 0;
+	padding: 0;
+	color: #000;
+}
 
-        .category {
-            position: absolute;
-            overflow: hidden;
-            top: 10px;
-            left: 10px;
-            width: 310px;
-            height: 100px;
-            z-index: 10;
-            border: 1px solid black;
-            font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
-            font-size: 12px;
-            text-align: center;
-            background-color: #fff;
-        }
+.category {
+	position: absolute;
+	overflow: hidden;
+	top: 10px;
+	left: 10px;
+	width: 310px;
+	height: 100px;
+	z-index: 10;
+	border: 1px solid black;
+	font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+	font-size: 12px;
+	text-align: center;
+	background-color: #fff;
+}
 
-        .category .menu_selected {
-            background: #FF5F4A;
-            color: #fff;
-            border-left: 1px solid #915B2F;
-            border-right: 1px solid #915B2F;
-            margin: 0 -1px;
-        }
+.category .menu_selected {
+	background: #FF5F4A;
+	color: #fff;
+	border-left: 1px solid #915B2F;
+	border-right: 1px solid #915B2F;
+	margin: 0 -1px;
+}
 
-        .category li {
-            list-style: none;
-            float: left;
-            width: 50px;
-            height: 45px;
-            padding-top: 5px;
-            cursor: pointer;
-        }
+.category li {
+	list-style: none;
+	float: left;
+	width: 50px;
+	height: 45px;
+	padding-top: 5px;
+	cursor: pointer;
+}
 
-        .category .ico_comm {
-            display: block;
-            margin: 0 auto 2px;
-        }
+.category .ico_comm {
+	display: block;
+	margin: 0 auto 2px;
+}
 
-        .category .ico_all {
-            width: 22px;
-            height: 26px;
-            background: url('../project/mark/css_sprites_resize.png') -10px -10px;
-        }
+.category .ico_all {
+	width: 22px;
+	height: 26px;
+	background: url('../project/mark/css_sprites_resize.png') -10px -10px;
+}
 
-        .category .ico_badmin {
-            width: 22px;
-            height: 26px;
-            background: url('../project/mark/css_sprites_resize.png') -52px -10px;
-        }
+.category .ico_badmin {
+	width: 22px;
+	height: 26px;
+	background: url('../project/mark/css_sprites_resize.png') -52px -10px;
+}
 
-        .category .ico_baseball {
-            width: 22px;
-            height: 26px;
-            background: url('../project/mark/css_sprites_resize.png') -94px -10px;
-        }
+.category .ico_baseball {
+	width: 22px;
+	height: 26px;
+	background: url('../project/mark/css_sprites_resize.png') -94px -10px;
+}
 
-        .category .ico_basket {
-            width: 22px;
-            height: 26px;
-            background: url('../project/mark/css_sprites_resize.png') -10px -56px;
-        }
+.category .ico_basket {
+	width: 22px;
+	height: 26px;
+	background: url('../project/mark/css_sprites_resize.png') -10px -56px;
+}
 
-        .category .ico_camping {
-            width: 22px;
-            height: 26px;
-            background: url('../project/mark/css_sprites_resize.png') -52px -56px;
-        }
+.category .ico_camping {
+	width: 22px;
+	height: 26px;
+	background: url('../project/mark/css_sprites_resize.png') -52px -56px;
+}
 
-        .category .ico_football {
-            width: 22px;
-            height: 26px;
-            background: url('../project/mark/css_sprites_resize.png') -94px -56px;
-        }
+.category .ico_football {
+	width: 22px;
+	height: 26px;
+	background: url('../project/mark/css_sprites_resize.png') -94px -56px;
+}
 
-        .category .ico_footsal {
-            width: 22px;
-            height: 26px;
-            background: url('../project/mark/css_sprites_resize.png') -136px -10px;
-        }
+.category .ico_footsal {
+	width: 22px;
+	height: 26px;
+	background: url('../project/mark/css_sprites_resize.png') -136px -10px;
+}
 
-        .category .ico_golf {
-            width: 22px;
-            height: 26px;
-            background: url('../project/mark/css_sprites_resize.png') -136px -56px;
-        }
+.category .ico_golf {
+	width: 22px;
+	height: 26px;
+	background: url('../project/mark/css_sprites_resize.png') -136px -56px;
+}
 
-        .category .ico_gym {
-            width: 22px;
-            height: 26px;
-            background: url('../project/mark/css_sprites_resize.png') -10px -102px;
-        }
+.category .ico_gym {
+	width: 22px;
+	height: 26px;
+	background: url('../project/mark/css_sprites_resize.png') -10px -102px;
+}
 
-        .category .ico_multiUse {
-            width: 22px;
-            height: 26px;
-            background: url('../project/mark/css_sprites_resize.png') -52px -102px;
-        }
+.category .ico_multiUse {
+	width: 22px;
+	height: 26px;
+	background: url('../project/mark/css_sprites_resize.png') -52px -102px;
+}
 
-        .category .ico_soccer {
-            width: 22px;
-            height: 26px;
-            background: url('../project/mark/css_sprites_resize.png') -94px -102px;
-        }
+.category .ico_soccer {
+	width: 22px;
+	height: 26px;
+	background: url('../project/mark/css_sprites_resize.png') -94px -102px;
+}
 
-        .category .ico_tennis {
-            width: 22px;
-            height: 26px;
-            background: url('../project/mark/css_sprites_resize.png') -136px -102px;
-
-        }
-    </style>
+.category .ico_tennis {
+	width: 22px;
+	height: 26px;
+	background: url('../project/mark/css_sprites_resize.png') -136px -102px;
+}
+</style>
 </head>
 
 <body>
 	<!-- container start -->
 	<!-- 지도와 리스트 정보가 표시될 col start -->
 	<div class="container">
-	  <div class="row">
-	    <div class="col" id="addr">
-	    </div>
-	  <div class="col">
-	      검색 결과 : 총 몇 건
-	    </div>
-	  </div>
+		<div class="row">
+			<div class="col" id="addr"></div>
+			<div class="col" id="count">       </div>
+		</div>
 	</div>
 	<!-- 지도와 리스트 정보가 표시될 col end -->
-	
-	
-	
+
+
+
 	<div class="container px-lg-5">
-  	<div class="row mx-lg-n5">
-        <!-- 지도가 표시될 div start-->
-  	<div class="col py-3 px-lg-5 border bg-light">
-    <div id="mapwrap">
-        <div id="map" style="width:100%;height:350px;"></div>
-        <!-- 지도 위에 표시될 마커 카테고리 -->
-        <div class="category" id="sel">
-            <ul>
-                <li id="allMenu" onclick="changeMarker('all')">
-                    <span class="ico_comm ico_all"></span>
-                    전체
-                <li id="golfMenu" onclick="changeMarker('golf')">
-                    <span class="ico_comm ico_golf"></span>
-                    골프
-                <li id="basketMenu" onclick="changeMarker('basket')">
-                    <span class="ico_comm ico_basket"></span>
-                    농구
-                <li id="multiUseMenu" onclick="changeMarker('multiUse')">
-                    <span class="ico_comm ico_multiUse"></span>
-                    경기장
-                <li id="badminMenu" onclick="changeMarker('badmin')">
-                    <span class="ico_comm ico_badmin"></span>
-                    배드맨턴
-                <li id="baseballMenu" onclick="changeMarker('baseball')">
-                    <span class="ico_comm ico_baseball"></span>
-                    야구
-                <li id="footballMenu" onclick="changeMarker('football')">
-                    <span class="ico_comm ico_football"></span>
-                    족구
-                <li id="gymMenu" onclick="changeMarker('gym')">
-                    <span class="ico_comm ico_gym"></span>
-                    체육관
-                <li id="soccerMenu" onclick="changeMarker('soccer')">
-                    <span class="ico_comm ico_soccer"></span>
-                    축구
-                <li id="campingMenu" onclick="changeMarker('camping')">
-                    <span class="ico_comm ico_camping"></span>
-                    캠핑
-                <li id="tennisMenu" onclick="changeMarker('tennis')">
-                    <span class="ico_comm ico_tennis"></span>
-                    테니스
-                <li id="footsalMenu" onclick="changeMarker('footsal')">
-                    <span class="ico_comm ico_footsal"></span>
-                    풋살
+		<div class="row mx-lg-n5">
+			<!-- 지도가 표시될 div start-->
+			<div class="col py-3 px-lg-5 border bg-light">
+				<div id="mapwrap">
+					<div id="map" style="width: 100%; height: 350px;"></div>
+					<!-- 지도 위에 표시될 마커 카테고리 -->
+					<div class="category" id="sel">
+						<ul>
+							<li id="allMenu" onclick="changeMarker('all')"><span
+								class="ico_comm ico_all"></span> 전체
+							<li id="golfMenu" onclick="changeMarker('golf')"><span
+								class="ico_comm ico_golf"></span> 골프
+							<li id="basketMenu" onclick="changeMarker('basket')"><span
+								class="ico_comm ico_basket"></span> 농구
+							<li id="multiUseMenu" onclick="changeMarker('multiUse')"><span
+								class="ico_comm ico_multiUse"></span> 경기장
+							<li id="badminMenu" onclick="changeMarker('badmin')"><span
+								class="ico_comm ico_badmin"></span> 배드맨턴
+							<li id="baseballMenu" onclick="changeMarker('baseball')"><span
+								class="ico_comm ico_baseball"></span> 야구
+							<li id="footballMenu" onclick="changeMarker('football')"><span
+								class="ico_comm ico_football"></span> 족구
+							<li id="gymMenu" onclick="changeMarker('gym')"><span
+								class="ico_comm ico_gym"></span> 체육관
+							<li id="soccerMenu" onclick="changeMarker('soccer')"><span
+								class="ico_comm ico_soccer"></span> 축구
+							<li id="campingMenu" onclick="changeMarker('camping')"><span
+								class="ico_comm ico_camping"></span> 캠핑
+							<li id="tennisMenu" onclick="changeMarker('tennis')"><span
+								class="ico_comm ico_tennis"></span> 테니스
+							<li id="footsalMenu" onclick="changeMarker('footsal')"><span
+								class="ico_comm ico_footsal"></span> 풋살</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<!-- 지도가 표시될 div end-->
 
-                </li>
-            </ul>
-        </div>
-    </div>
-    </div>
-    <!-- 지도가 표시될 div end-->
-    
-    
-	<!-- 리스트 표시될 div start-->
-	<div class="col py-3 px-lg-5 border bg-light" >
-	
-	<div class="nav justify-content-end" >
-	<div class="list-group" style="width:100%;height:350px;">
-		
-		
-	<!-- 리스트 -->	
-	<a href="#" class="list-group-item list-group-item-action "  >
-       	<div class="d-flex w-100 justify-content-between">
-         	<h5 class="mb-1" id="listFacility_name"></h5>
-         	<small id="listFacility_type"></small>
-       	</div>
-       	<p class="mb-1" id="listFacility_addr1"></p>
-       	<p class="mb-1" id="listFacility_addr2"></p>
-       	<small id="listFacility_tel"></small>
-     </a>
-	<!-- 리스트 -->	
-		
-		
-	
-	  
-	</div>
-	</div>
-	</div>
-	<!-- 리스트 표시될 div end-->
-	</div>
+
+			<!-- 리스트 표시될 div start-->
+			<div class="col py-3 px-lg-5 border bg-light">
+
+				<div class="nav justify-content-end">
+					<div class="list-group" style="width: 100%; height: 350px;">
+
+
+						<!-- 리스트 -->
+						<div id='temps'> 
+						
+						</div>
+						<!-- 리스트 -->
+
+
+
+
+					</div>
+				</div>
+			</div>
+			<!-- 리스트 표시될 div end-->
+		</div>
 	</div>
 
 
-	
-    <script>
+
+	<script>
     
 		var Check = location.href;
 		var checkCenter = Check.split("=")[1].split("&")[0];
@@ -328,7 +303,12 @@
                 addr2Array = [];
                 telArray = [];
                 addrArray = [];
-                	
+                indexArray = [];
+                let html1 = "";
+                let html2 = "";
+                let html3 = "";
+                let html4 = "";
+                let html5 = "";
                 for (const data of ArrayofEverything) {
                     fname = data.Facility_nm;
                     name = data.Location_nm;
@@ -343,6 +323,30 @@
                     
                     index = data.No;
                     
+                    switch (type) {
+                    case '골프장': golfPositions.push(new kakao.maps.LatLng(lat, lng));
+                        break;
+                    case '농구장': basketPositions.push(new kakao.maps.LatLng(lat, lng));
+                        break;
+                    case '다목적경기장': multiUsePositions.push(new kakao.maps.LatLng(lat, lng));
+                        break;
+                    case '배드맨턴장': badminPositions.push(new kakao.maps.LatLng(lat, lng));
+                        break;
+                    case '야구장': baseballPositions.push(new kakao.maps.LatLng(lat, lng));
+                        break;
+                    case '족구장': footballPositions.push(new kakao.maps.LatLng(lat, lng));
+                        break;
+                    case '체육관': gymPositions.push(new kakao.maps.LatLng(lat, lng));
+                        break;
+                    case '축구장': soccerPositions.push(new kakao.maps.LatLng(lat, lng));
+                        break;
+                    case '캠핑장': campingPositions.push(new kakao.maps.LatLng(lat, lng));
+                        break;
+                    case '테니스장': tennisPositions.push(new kakao.maps.LatLng(lat, lng));
+                        break;
+                    case '풋살경기장': footsalPositions.push(new kakao.maps.LatLng(lat, lng));
+                        break;
+                }
 	                
 					
                     if(checkCenter === address1_code){
@@ -352,6 +356,7 @@
                     	addr2Array.push(addr2);
                     	telArray.push(tel);
                     	addrArray.push(addr);
+                    	indexArray.push(index);
                     	
                     	console.log(nameArray[0]); //나중에 뺴기
                     	
@@ -360,69 +365,29 @@
                     } //if
                     
                     
-                    
-                    
-                   
-                   
-                    switch (type) {
-                        case '골프장': golfPositions.push(new kakao.maps.LatLng(lat, lng));
-                            break;
-                        case '농구장': basketPositions.push(new kakao.maps.LatLng(lat, lng));
-                            break;
-                        case '다목적경기장': multiUsePositions.push(new kakao.maps.LatLng(lat, lng));
-                            break;
-                        case '배드맨턴장': badminPositions.push(new kakao.maps.LatLng(lat, lng));
-                            break;
-                        case '야구장': baseballPositions.push(new kakao.maps.LatLng(lat, lng));
-                            break;
-                        case '족구장': footballPositions.push(new kakao.maps.LatLng(lat, lng));
-                            break;
-                        case '체육관': gymPositions.push(new kakao.maps.LatLng(lat, lng));
-                            break;
-                        case '축구장': soccerPositions.push(new kakao.maps.LatLng(lat, lng));
-                            break;
-                        case '캠핑장': campingPositions.push(new kakao.maps.LatLng(lat, lng));
-                            break;
-                        case '테니스장': tennisPositions.push(new kakao.maps.LatLng(lat, lng));
-                            break;
-                        case '풋살경기장': footsalPositions.push(new kakao.maps.LatLng(lat, lng));
-                            break;
-                    }
-                    
-
-                    
 
                 } //for문 마지막
                 
                 $("#addr").append(addrArray[0] + " 공공체육시설");
+                $("#count").append('검색 결과 : 총 '+ indexArray.length +'건');
                 
-                let html = "<ul>";
-            	html +=  nameArray[0] ;
-            	html += "</ul>";
-       		 	$("#listFacility_name").append(html);
-                
-       		 	
-       		 	let htm2 = "<ul>";
-         		htm2 += typeArray[0] ;
-         		htm2 += "</ul>";
-    		 	$("#listFacility_type").append(htm2);
-    		 	
-       		 	let htm3 = "<ul>";
-         		htm3 += addr1Array[0];
-         		htm3 += "</ul>";
-    		 	$("#listFacility_addr1").append(htm3);
-    		 	
-       		 	let htm4 = "<ul>";
-         		htm4 += addr2Array[0];
-         		htm4 += "</ul>";
-    		 	$("#listFacility_addr2").append(htm4);
-    		 	
-       		 	let htm5 = "<ul>";
-         		htm5 +=telArray[0];
-         		htm5 += "</ul>";
-    		 	$("#listFacility_tel").append(htm5);
-    		 	
-    		 	
+                for (var a in indexArray){
+                	
+                	
+                	
+                	temps = '<a href="#" class="list-group-item list-group-item-action">'
+					temps += '<div class="d-flex w-100 justify-content-between">'
+					temps += 		'<h5 class="mb-1" id="listFacility_name"> <ul>'  + nameArray[a] +  '</ul></h5>'
+					temps += 		'<small id="listFacility_type"><ul> '+ typeArray[a] +  ' </ul></small>'
+					temps += 		'</div>'
+					temps += 		'<p class="mb-1" id="listFacility_addr1"><ul>'  + addr1Array[a] + '</ul></p>'
+					temps += 		'<p class="mb-1" id="listFacility_addr2"><ul>'  + addr2Array[a] +   '</ul></p>' 
+					temps += 		'<small id="listFacility_tel"><ul>'  + telArray[a] +   '</ul></small>'
+					temps += 			'</a>'
+					
+                	
+					$("#temps").append(temps);
+                }
     		 	
     		 	
     		 	
@@ -986,8 +951,7 @@
     </script>
 </body>
 
-	
-	
 
-<%@ include file="../inc/footer.jsp" %>
-     
+
+
+<%@ include file="../inc/footer.jsp"%>
