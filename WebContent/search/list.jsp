@@ -327,7 +327,7 @@
                         Image = data.Image ;
                         
                         index = data.No;
-
+						// 카테고리별 마크 분류
                         switch (type) {
                             case '골프장': golfPositions.push(new kakao.maps.LatLng(lat, lng));
                                 break;
@@ -351,9 +351,10 @@
                                 break;
                             case '풋살경기장': footsalPositions.push(new kakao.maps.LatLng(lat, lng));
                                 break;
-                        } //switch
+                        } //switch end
 
-
+						
+                        // 시/도에 맞는 데이터 추출
                         if (checkCenter === address1_code) {
                             nameArray.push(fname);
                             typeArray.push(type);
@@ -386,9 +387,9 @@
 
 
                     $("#addr").append(addrArray[0] + " 공공체육시설");
-                    $("#count").append('검색 결과 : 총 ' + indexArray.length + '건');
-                    //        indexlisting();
-                    //      function indexlisting(){
+                    $("#count").append('검색 결과 : 총 ' + indexArray.length + '건'); // 나중에 ajax success안으로 넣어보기
+                    
+                    //리스트 클릭시 카드 생성
                     for (var a in indexArray) {
 
                         temps = '<div class="list-group-item list-group-item-action" id="insertAjax' + indexArray[a] + '">'
@@ -402,8 +403,7 @@
                         temps += '</div>'
 
                         $("#temps").append(temps);
-                    } // for
-                    //  }
+                    } // for end
 
                     for (const i of indexArray ) {
                         $("#insertAjax" + i).click(function () {
@@ -417,10 +417,10 @@
                                 },
                                 success: function () {
 									map.setLevel(5);
-                                	
+                                	//지도 포커스 이동
 									panTo(LatArray[indexArray.indexOf(i)],LngArray[indexArray.indexOf(i)]);
 									
-                                    
+                                    //클릭 된 리스트 정보
                                     temps1 = '<div id="insertAjax' + i + '">'
                                     temps1 += '<div class="card" >'
                                     temps1 += '<div class="card text-dark bg-light mb-3" >'
@@ -438,6 +438,7 @@
 
                                     $("#insertAjax" + i ).replaceWith(temps1);
                                     
+                                    //리스트 클릭시 카테고리 마터도 같이 변경
                                     switch (typeArray[indexArray.indexOf(i)]) {
                                     case '골프장': changeMarker('golf');
                                         break;
@@ -463,14 +464,7 @@
                                         break;
                                 } //switch
                                     
-                                    
-                                    
-                                    
-                                    
-                                    
-                                    
-                                    
-                                    
+                                  
                                     
                                 }
                             });
@@ -545,7 +539,7 @@
                     }
                 }
               
-
+				
                 function createbasketMarkers() {
                     for (var i = 0; i < basketPositions.length; i++) {
                         var imageSrc = '../project/mark/농구장.png',
@@ -661,11 +655,9 @@
                 /*
 				function markerOnclick(marker){
 					
-					var iwContent = '<div style="padding:5px;">'++'</div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-                   
                 // 인포윈도우를 생성합니다
                 var infowindow = new kakao.maps.InfoWindow({
-                    content: iwContent,
+                    content: "<div style="padding:5px;">'+원하는메세지+'</div>",
                     removable: true
                 });
 					
@@ -679,7 +671,7 @@
 				*/
 				
 				
-				
+				//마커들 지도 위에 생성합니다.
                 function setgolfMarker(map) {
                     for (var i = 0; i < golfMarkers.length; i++) {
                         golfMarkers[i].setMap(map);
@@ -767,7 +759,7 @@
                         allMenu.className = '';
                         // 골프장 카테고리를 선택된 스타일로 변경하고
                         golfMenu.className = 'menu_selected';
-                        // 편의점과 주차장 카테고리는 선택되지 않은 스타일로 바꿉니다
+                        // 나머지 카테고리는 선택되지 않은 스타일로 바꿉니다
                         basketMenu.className = '';
                         multiUseMenu.className = '';
                         badminMenu.className = '';
@@ -1184,7 +1176,7 @@
                         settennisMarker(null);
                         setfootsalMarker(map);
                         
-                     // 풋살경기장 리스트만 표시하도록 설정합니다.
+                     	// 풋살경기장 리스트만 표시하도록 설정합니다.
                         emptyList= indexArray.filter(function(element){
                         	return typeArray[indexArray.indexOf(element)] != '풋살경기장'
                         });
