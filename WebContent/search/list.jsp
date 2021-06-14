@@ -156,37 +156,37 @@
 
 
             <div class="container px-lg-5 mx-auto" style=" width : 2000px; margin : 10px 30px">
-                <div class="row mx-lg-n5" style="width : 100% ; height : 650px ">
+                <div class="row mx-lg-n5" style="width : 100% ; height : 650px">
                     <!-- 지도가 표시될 div start-->
-                    <div class="col py-3 px-lg-5 border bg-light" >
-                        <div id="mapwrap">
-                            <div id="map" style="width: 100%; height: 600px;"></div>
+                    <div class="col py-3 px-lg-5 border bg-light"  >
+                        <div id="mapwrap" >
+                            <div id="map" style="width: 100%; height: 600px"></div>
                             <!-- 지도 위에 표시될 마커 카테고리 -->
                             <div class="category" id="sel">
                                 <ul>
-                                    <li id="allMenu" onclick="changeMarker('all')"><span
+                                    <li id="allMenu" onclick="changeMarker('all');map.setLevel(10);"><span
                                             class="ico_comm ico_all"></span> 전체
-                                    <li id="golfMenu" onclick="changeMarker('golf')"><span
+                                    <li id="golfMenu" onclick="changeMarker('golf');map.setLevel(10);"><span
                                             class="ico_comm ico_golf"></span> 골프
-                                    <li id="basketMenu" onclick="changeMarker('basket')"><span
+                                    <li id="basketMenu" onclick="changeMarker('basket');map.setLevel(10);"><span
                                             class="ico_comm ico_basket"></span> 농구
-                                    <li id="multiUseMenu" onclick="changeMarker('multiUse')"><span
+                                    <li id="multiUseMenu" onclick="changeMarker('multiUse');map.setLevel(10);"><span
                                             class="ico_comm ico_multiUse"></span> 경기장
-                                    <li id="badminMenu" onclick="changeMarker('badmin')"><span
+                                    <li id="badminMenu" onclick="changeMarker('badmin');map.setLevel(10);"><span
                                             class="ico_comm ico_badmin"></span> 배드맨턴
-                                    <li id="baseballMenu" onclick="changeMarker('baseball')"><span
+                                    <li id="baseballMenu" onclick="changeMarker('baseball');map.setLevel(10);"><span
                                             class="ico_comm ico_baseball"></span> 야구
-                                    <li id="footballMenu" onclick="changeMarker('football')"><span
+                                    <li id="footballMenu" onclick="changeMarker('football');map.setLevel(10);"><span
                                             class="ico_comm ico_football"></span> 족구
-                                    <li id="gymMenu" onclick="changeMarker('gym')"><span
+                                    <li id="gymMenu" onclick="changeMarker('gym');map.setLevel(10);"><span
                                             class="ico_comm ico_gym"></span> 체육관
-                                    <li id="soccerMenu" onclick="changeMarker('soccer')"><span
+                                    <li id="soccerMenu" onclick="changeMarker('soccer');map.setLevel(10);"><span
                                             class="ico_comm ico_soccer"></span> 축구
-                                    <li id="campingMenu" onclick="changeMarker('camping')"><span
+                                    <li id="campingMenu" onclick="changeMarker('camping');map.setLevel(10);"><span
                                             class="ico_comm ico_camping"></span> 캠핑
-                                    <li id="tennisMenu" onclick="changeMarker('tennis')"><span
+                                    <li id="tennisMenu" onclick="changeMarker('tennis');map.setLevel(10);"><span
                                             class="ico_comm ico_tennis"></span> 테니스
-                                    <li id="footsalMenu" onclick="changeMarker('footsal')"><span
+                                    <li id="footsalMenu" onclick="changeMarker('footsal');map.setLevel(10);"><span
                                             class="ico_comm ico_footsal"></span> 풋살</li>
                                 </ul>
                             </div>
@@ -416,9 +416,9 @@
                                     alert('error!')
                                 },
                                 success: function () {
-									panTo(LatArray[indexArray.indexOf(i)],LngArray[indexArray.indexOf(i)])
-									
-									
+									map.setLevel(5);
+                                	
+									panTo(LatArray[indexArray.indexOf(i)],LngArray[indexArray.indexOf(i)]);
 									
                                     
                                     temps1 = '<div id="insertAjax' + i + '">'
@@ -497,7 +497,7 @@
 
 
                     changeMarker('all'); // 지도에 골프장 마커가 보이도록 설정합니다    
-
+					
 
 
                 }) // end of getJSON
@@ -741,10 +741,11 @@
                         coffeeMarkers[i].setMap(map);
                     }
                 }
+                
+                
                 // 카테고리를 클릭했을 때 type에 따라 카테고리의 스타일과 지도에 표시되는 마커를 변경합니다
-
-
                 function changeMarker(type) {
+                	
                     var allMenu = document.getElementById('allMenu');
                     var golfMenu = document.getElementById('golfMenu');
                     var basketMenu = document.getElementById('basketMenu');
@@ -757,11 +758,13 @@
                     var campingMenu = document.getElementById('campingMenu');
                     var tennisMenu = document.getElementById('tennisMenu');
                     var footsalMenu = document.getElementById('footsalMenu');
-
+					
+                    
+                    
+                    
                     // 골프장 카테고리가 클릭됐을 때
                     if (type === 'golf') {
                         allMenu.className = '';
-						
                         // 골프장 카테고리를 선택된 스타일로 변경하고
                         golfMenu.className = 'menu_selected';
                         // 편의점과 주차장 카테고리는 선택되지 않은 스타일로 바꿉니다
@@ -827,6 +830,9 @@
                         settennisMarker(map);
                         setfootsalMarker(map);
                         
+                        for (var i of indexArray){
+                        	$("#insertAjax"+i).show();
+                        }
                         
 
                     } else if (type === 'basket') {
@@ -1189,11 +1195,12 @@
                         	
                         $("#insertAjax"+j).hide();
                        	}
-                        
                     }
+                    
                 }
                 
-                
+              
+
 
 
 
