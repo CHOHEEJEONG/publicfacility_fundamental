@@ -5,7 +5,7 @@
 <!-- breadcrumb start -->
 <div class="jumbotron jumbotron-fluid" style="padding : 30px">
 	<div class="container">
-  		<h1 class="display-4 font-italic " id="bold">Where is Public Sports Facilities?</h1>
+  		<h1 class="display-4 font-italic " id="bold">Where is Public Sports Facility?</h1>
     	<p class="lead">Find the best public sports facilities near by you.</p>
   	</div>
 </div>

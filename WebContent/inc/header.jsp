@@ -21,7 +21,7 @@
 	font-weight: bold;
 }
 </style>
-<title>template</title>
+<title>PUBLIC SPORTS FACILITY</title>
 </head>
 
 <nav class="navbar navbar-expand navbar-dark bg-dark">
@@ -34,10 +34,9 @@
 
 	<div class="collapse navbar-collapse" id="navbarsExample02">
 		<ul class="navbar-nav mr-auto">
-			<li class="nav-item active"><a class="nav-link"
-				href="/test/index.jsp">Home <span class="sr-only">(current)</span></a>
+			<li class="nav-item active"><a class="nav-link"	href="/test/index.jsp">Home <span class="sr-only">(current)</span></a>
 			</li>
-			<li class="nav-item"><a class="nav-link" href="#">Map</a></li>
+			<li class="nav-item"><a class="nav-link">Map</a></li>
 		</ul>
 
 	</div>

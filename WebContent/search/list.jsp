@@ -5,7 +5,7 @@
 <!-- breadcrumb start -->
 <div class="jumbotron jumbotron-fluid" style="padding : 30px">
 	<div class="container">
-  		<h1 class="display-4 font-italic " id="bold">Where is Public Sports Facilities?</h1>
+  		<h1 class="display-4 font-italic " id="bold">Where is Public Sports Facility?</h1>
   	</div>
 </div>
 <!-- breadcrumb end -->
@@ -16,7 +16,6 @@
 <script type="text/javascript"
 	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=226c8fcd0301bbaab162a7f83afe082b"></script>
 <meta charset="utf-8">
-<title>마커 필터링</title>
 <style>
 #mapwrap {
 	position: relative;
@@ -368,42 +367,67 @@
 					               	
 					$("#temps").append(temps);
                 } // for
-					$("#temps").click(function (){
-		                $.ajax({
-		                    url: '../project/final_PublicFacility (2).json',
-		                    type: 'GET',
-		                    dataType: 'json',
-		                    data : {data: JSON.stringify("publicfacility")},
-		                    error: function () {
-		                        alert('error!')
-		                    },
-		                    success: function () {
-		                    	console.log(indexArray[a]);
-		                    	
-		                    	
-		                    	/*
-                   				temps = '<div class="card" >'
-		            			temps += '<div class="card text-dark bg-light mb-3" >'
-                   				temps += '<div class="card-body">'
-                   				temps += '<h5 class="card-title">' + 개방시설명 +'</h5>'													//타이틀
-                   				temps += '<p class="card-text">' + 개방시설명, 개방장소명, 개방시설유형구분 + '</p></div>' 						//데이터
-                   				temps += '<ul class="list-group list-group-flush">'	
-                   				temps += '<p class="card-text"> <i class="fa fa-clock-o" aria-hidden="true"></i>' + 운영시간 + '</p>'	//타이틀
-                   				temps += '<li class="list-group-item">' + 휴관일,운영시간(평일/주말) + '</li>'								//데이터
-                   				temps += '<p class="card-text"><i class="fa fa-user-o" aria-hidden="true"></i>' + 수용가능인원 + '</p>'	//타이틀
-                   				temps += '<li class="list-group-item">' + 수용가능인원수,면적,부대시설정보,신청방법,시설사진정보 + '</li>'			//데이터
-                   				temps += '<p class="card-text"><i class="fa fa-phone" aria-hidden="true"></i>' + 전화번호 + '</p>'		//타이틀
-                   				temps += '<li class="list-group-item">' + 도로명주소/지번주소/전화번호 + '</li></ul></div></div></body>'		//데이터
-		                    	*/    
-		                    	
-		            			console.log(temps); //나중에 지우기
-		    					$("#temps").replaceWith("hi");
-		            	}
-		                });
-		       		})
                 
                 
-
+                
+                
+                
+				//              indexlisting();
+                //      function indexlisting(){
+                      for (var a in indexArray){
+                         
+                         temps = '<div id="insertAjax'+indexArray[a]+'">'
+                     temps += '<div class="d-flex w-100 justify-content-between">'
+                     temps +=       '<h5 class="mb-1" id="listFacility_name"> <ul>' + nameArray[a] + '</ul></h5>'
+                     temps +=       '<small id="listFacility_type"><ul> '+ typeArray[a] +  ' </ul></small>'
+                     temps +=       '</div>'
+                     temps +=       '<p class="mb-1" id="listFacility_addr1"><ul>'  + addr1Array[a] + '</ul></p>'
+                     temps +=       '<p class="mb-1" id="listFacility_addr2"><ul>'  + addr2Array[a] +   '</ul></p>' 
+                     temps +=       '<small id="listFacility_tel"><ul>'  + telArray[a] +   '</ul></small>'
+                     temps +=       '</div>'
+                                       
+                     $("#temps").append(temps);
+                      } // for
+                    //  }
+                      
+                      for (var i in indexArray){
+                          $("#insertAjax"+i).click(function (){
+                                 $.ajax({
+                                     url: '../project/final_PublicFacility (2).json',
+                                     type: 'GET',
+                                     dataType: 'json',
+                                     data : {data: JSON.stringify("publicfacility")},
+                                     error: function () {
+                                         alert('error!')
+                                     },
+                                     success: function () {
+                                        console.log(i);
+                                        
+                                        
+                                        
+                         temps1 = '<div id="insertAjax'+i+'">'
+                                          temps1 = '<div class="card" >'
+                                      temps1 += '<div class="card text-dark bg-light mb-3" >'
+                                          temps1 += '<div class="card-body">'
+                                          temps1 += '<h5 class="card-title">' + 개방시설명 +'</h5>'                                       //타이틀
+                                          temps1 += '<p class="card-text">' + 개방시설명, 개방장소명, 개방시설유형구분 + '</p></div>'                   //데이터
+                                          temps1 += '<ul class="list-group list-group-flush">'   
+                                          temps1 += '<p class="card-text"> <i class="fa fa-clock-o" aria-hidden="true"></i>' + 운영시간 + '</p>'   //타이틀
+                                          temps1 += '<li class="list-group-item">' + 휴관일,운영시간(평일/주말) + '</li>'                        //데이터
+                                          temps1 += '<p class="card-text"><i class="fa fa-user-o" aria-hidden="true"></i>' + 수용가능인원 + '</p>'   //타이틀
+                                          temps1 += '<li class="list-group-item">' + 수용가능인원수,면적,부대시설정보,신청방법,시설사진정보 + '</li>'         //데이터
+                                          temps1 += '<p class="card-text"><i class="fa fa-phone" aria-hidden="true"></i>' + 전화번호 + '</p>'      //타이틀
+                                          temps1 += '<li class="list-group-item">' + 도로명주소/지번주소/전화번호 + '</li></ul></div></div></body>'      //데이터
+                                     temps1 +=       '</div>'
+                                            
+                                        
+                                      console.log(temps1); //나중에 지우기
+                                    $("#insertAjax"+i).replaceWith(temps1);
+                                }
+                                 });
+                              })
+                           
+                           }
     		 	
     		 	
        		 	
