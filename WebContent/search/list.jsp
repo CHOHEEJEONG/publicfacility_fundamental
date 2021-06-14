@@ -391,7 +391,7 @@
                     //      function indexlisting(){
                     for (var a in indexArray) {
 
-                        temps = '<div id="insertAjax' + indexArray[a] + '">'
+                        temps = '<div class="list-group-item list-group-item-action" id="insertAjax' + indexArray[a] + '">'
                         temps += '<div class="d-flex w-100 justify-content-between">'
                         temps += '<h5 class="mb-1" id="listFacility_name"> <ul>' + nameArray[a] + '</ul></h5>'
                         temps += '<small id="listFacility_type"><ul> ' + typeArray[a] + ' </ul></small>'
