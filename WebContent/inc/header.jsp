@@ -11,6 +11,7 @@
 	href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
 	integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
 	crossorigin="anonymous">
+
 <script src="/js/jquery-3.6.0.js"></script>
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
@@ -36,7 +37,7 @@
 		<ul class="navbar-nav mr-auto">
 			<li class="nav-item active"><a class="nav-link"	href="/test/index.jsp">Home <span class="sr-only">(current)</span></a>
 			</li>
-			<li class="nav-item"><a class="nav-link">Map</a></li>
+			<li class="nav-item "><a class="nav-link" >Map</a></li>
 		</ul>
 
 	</div>

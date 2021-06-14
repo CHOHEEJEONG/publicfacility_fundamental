@@ -139,28 +139,28 @@
                     height: 26px;
                     background: url('../project/mark/css_sprites_resize.png') -136px -102px;
                 }
+                
             </style>
         </head>
 
         <body>
             <!-- container start -->
             <!-- 지도와 리스트 정보가 표시될 col start -->
-            <div class="container" >
+            <div class="container" style="width : 100%">
                 <div class="row">
-                    <div class="col" id="addr"></div>
-                    <div class="col" id="count"></div>
+                    <div class="col" id="addr" style="font-size : 25px"></div>	<!-- 검색할 시/도 공공시설 -->
+                    <div class="col" id="count" style="font-size : 17px"></div>	<!--검색결과 총 건수  -->
                 </div>
             </div>
             <!-- 지도와 리스트 정보가 표시될 col end -->
 
 
-
-            <div class="container px-lg-5 mx-auto" style=" width : 2000px; margin : 10px 30px">
+            <div class="container px-lg-5 mx-auto" style="margin : 10px 0px">
                 <div class="row mx-lg-n5" style="width : 100% ; height : 650px">
                     <!-- 지도가 표시될 div start-->
-                    <div class="col py-3 px-lg-5 border bg-light"  >
+                    <div id="map" class="col py-3 px-lg-5 border bg-light"  >
                         <div id="mapwrap" >
-                            <div id="map" style="width: 100%; height: 600px"></div>
+                            <div style="width: 100%; height: 600px"></div>
                             <!-- 지도 위에 표시될 마커 카테고리 -->
                             <div class="category" id="sel">
                                 <ul>
@@ -196,10 +196,10 @@
 
 
                     <!-- 리스트 표시될 div start-->
-                    <div class="col py-3 px-lg-5 border bg-light">
+                    <div class="col bg-light" style="width:320px; padding:0;">	
 
-                        <div class="nav justify-content-end">
-                            <div class="list-group" style="overflow: auto; width: 100%; height: 600px">
+                        <div class="nav justify-content-end" >
+                            <div class="list-group" style="overflow: auto; width: 100%; height: 670px; border : 1px solid silver">
 
                                 <div id='temps'></div>
 
@@ -212,7 +212,6 @@
                     <!-- 리스트 표시될 div end-->
                 </div>
             </div>
-
 
 
             <script>
