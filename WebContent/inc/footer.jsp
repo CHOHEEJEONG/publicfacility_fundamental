@@ -1,7 +1,7 @@
 <%@ page pageEncoding="utf-8"%>
 
 
-<link rel="stylesheet" href=stackpath_bootstrapcdn.css>
+
 <link rel="stylesheet"
    href=" https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet"
@@ -22,7 +22,7 @@
                      <h6 class="mb-3 mb-lg-3 text-muted bold-text mt-sm-0 mt-5">
                         <b>MEMBER</b>
                      </h6>
-                     <p class="mb-2 mb-lg-2 text-muted bold-text mt-sm-0 mt-5">JUNG
+                     <p class="mb-2 mb-lg-2 text-muted bold-text mt-sm-0 mt-5">JEONG
                         CHO HEE</p>
                      <p class="mb-2 mb-lg-2 text-muted bold-text mt-sm-0 mt-5">JUNG
                         HYUN SEOK</p>
