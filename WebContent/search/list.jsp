@@ -382,7 +382,7 @@
         } //for문 마지막
 
         $("#addr").append(addrArray[0] + " 공공체육시설");
-        $("#count").append('검색 결과 : 총 ' + indexArray.length + '건'); // 나중에 ajax success안으로 넣어보기
+        $("#count").append('검색 결과 : 총 ' + indexArray.length + '건'); 
 
         //리스트 클릭시 카드 생성
         for (var a in indexArray) {
@@ -442,7 +442,7 @@
 
                         $("#insertAjax" + i).replaceWith(clickedListHtml);
 
-                        //리스트 클릭시 카테고리 마터도 같이 변경
+                        //리스트 클릭시 카테고리 마커도 같이 변경
                         switch (typeArray[indexArray.indexOf(i)]) {
                             case '골프장': changeMarker('golf');
                                 break;
@@ -467,10 +467,10 @@
                             case '풋살경기장': changeMarker('footsal');
                                 break;
                         } //switch end
-                    } // success end!
-                });//ajax end!!
-            }) // click function end!!!
-        } // for loop end!!!!
+                    } // success end
+                });//ajax end
+            }) // click function end
+        } // for loop end
 
         creategolfMarkers();
         createbasketMarkers();
@@ -517,10 +517,7 @@
             image: image
         });
         
-        kakao.maps.event.addListener(marker, 'click', function () {
-            // 마커 위에 인포윈도우를 표시합니다
-            infowindow.open(map, marker);
-        });
+
         
         
         return marker;
