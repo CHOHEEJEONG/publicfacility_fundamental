@@ -7,7 +7,7 @@
 <p align="center"><img width="50%" src="https://user-images.githubusercontent.com/83495586/138552063-c7c95062-96da-4ad8-9bda-e47b3d1b93cc.png"/></p>
 
 + 영상 
-<p align="center"><img width="100%" src="https://user-images.githubusercontent.com/83495586/138552984-fa14f1e7-9fe7-4837-bb33-db00424a03c6.gif"/></p>
+<p align="center"><img width="100%" src="https://user-images.githubusercontent.com/83495586/138553423-301d620e-332a-416f-add3-aba1b0b6f348.gif"/></p>
 
 + 사용기술
 
