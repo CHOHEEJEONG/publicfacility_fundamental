@@ -6,11 +6,14 @@
 
 <p align="center"><img width="50%" src="https://user-images.githubusercontent.com/83495586/138552063-c7c95062-96da-4ad8-9bda-e47b3d1b93cc.png"/></p>
 
-+ 영상 
+#
+
+### 영상
+---
 <p align="center"><img width="100%" src="https://user-images.githubusercontent.com/83495586/138554857-ca1d981a-a3a8-48e8-8ce4-f7d8bfccaf0b.gif"/></p>
 
-+ 사용기술
-
+### 사용기술
+---
         데이터 : 공공데이터포털
         
         Kakao Maps API
@@ -23,8 +26,8 @@
         
         웹 반응성 : AJAX, JQuery, JSP
 
-+ 기능 
-
+### 기능 
+---
          홈에 전국 지도 위 폴리곤 형성, 폴리곤 클릭 시 해당 공공 체육시설 정보를 얻을 수 있는 페이지로 이동
          
          AJAX를 이용하여 url의 쿼리 요소를 시도별 localcode로 구분지어 사용자에게 시도별 정보 제공
