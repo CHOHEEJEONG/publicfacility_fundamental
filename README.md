@@ -4,10 +4,10 @@
 
 #### 전국 체육 공공시설에 대한 위치와 상세한 정보를 시도별, 종목별로 얻을 수 있는 웹 서비스
 
-<img width="50%" src="https://user-images.githubusercontent.com/83495586/138552063-c7c95062-96da-4ad8-9bda-e47b3d1b93cc.png"/>
+<p align="center"><img width="50%" src="https://user-images.githubusercontent.com/83495586/138552063-c7c95062-96da-4ad8-9bda-e47b3d1b93cc.png"/></p>
 
 + 영상 
-<img width="50%" src=""/>
+<p align="center"><img width="100%" src="https://user-images.githubusercontent.com/83495586/138552984-fa14f1e7-9fe7-4837-bb33-db00424a03c6.gif"/></p>
 
 + 사용기술
 
